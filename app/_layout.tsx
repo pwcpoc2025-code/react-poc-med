@@ -1,6 +1,7 @@
 import { Ionicons } from '@expo/vector-icons';
 import { DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer';
 import { LinearGradient } from 'expo-linear-gradient';
+import { router } from 'expo-router';
 import { Drawer } from 'expo-router/drawer';
 import React from 'react';
 import {
@@ -81,7 +82,7 @@ function CustomDrawerContent(props: any) {
           label={() => (
             <LabelWrapper>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={styles.itemText}>Lupin AI Assistant</Text>
+                <Text style={styles.itemText}  onPress={() =>  router.push("/screens/ai-assistant")}>Lupin AI Assistant</Text>
                 <Text style={styles.tag}>NEW</Text>
               </View>
             </LabelWrapper>
