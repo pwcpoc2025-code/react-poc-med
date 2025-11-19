@@ -42,7 +42,7 @@ function CustomDrawerContent(props: any) {
       </View>
 
       <ScrollView style={styles.container}>
-        <view style={styles.userDetailsContainer}>
+        <View style={styles.userDetailsContainer}>
           <View style={styles.header}>
             <Image
               source={{ uri: 'https://i.pravatar.cc/150?img=12' }}
@@ -67,7 +67,7 @@ function CustomDrawerContent(props: any) {
               <Text style={styles.infoValue}>Mumbai</Text>
             </View>
           </View>
-        </view>
+        </View>
 
         {/* Section Title */}
         <Text style={styles.sectionTitle}>AI FIELD ASSISTANT</Text>
