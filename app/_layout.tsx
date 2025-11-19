@@ -35,6 +35,15 @@ function CustomDrawerContent(props: any) {
   return (
     <DrawerContentScrollView
       {...props}
+      screenoptions={{
+        drawerType: 'front',
+        overlayColor: 'rgba(0,0,0,0.35)',
+        swipeEnabled: true,
+        swipeEdgeWidth: 80,
+        drawerStyle: {
+          width: '75%',
+        },
+      }}
       contentContainerStyle={{ padding: 0, borderRadius: 10 }}
     >
       <View style={styles.drawerHeader}>
@@ -75,19 +84,19 @@ function CustomDrawerContent(props: any) {
 
         {/* AI Assistant Option */}
         <DrawerItem
-        style={{ margin: 0, padding: 0 }}
+          style={{ margin: 0, padding: 0 }}
           icon={({ color, size }) => (
             <Ionicons name="calendar" size={18} color="black" />
           )}
           label={() => (
             <LabelWrapper>
               <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-                <Text style={styles.itemText}  onPress={() =>  router.push("/screens/ai-assistant")}>Lupin AI Assistant</Text>
+                <Text style={styles.itemText} onPress={() => router.push("/screens/ai-assistant")}>Lupin AI Assistant</Text>
                 <Text style={styles.tag}>NEW</Text>
               </View>
             </LabelWrapper>
           )}
-          onPress={() => {}}
+          onPress={() => { }}
         />
 
         {/* Field Activities */}
@@ -107,7 +116,7 @@ function CustomDrawerContent(props: any) {
               </View>
             </LabelWrapper>
           )}
-          onPress={() => {}}
+          onPress={() => { }}
         />
         <DrawerItem
           icon={({ color, size }) => (
@@ -118,7 +127,7 @@ function CustomDrawerContent(props: any) {
               <Text style={styles.itemText}>Leave & Attendance</Text>
             </LabelWrapper>
           )}
-          onPress={() => {}}
+          onPress={() => { }}
         />
         <DrawerItem
           icon={({ color, size }) => (
@@ -134,7 +143,7 @@ function CustomDrawerContent(props: any) {
               </View>
             </LabelWrapper>
           )}
-          onPress={() => {}}
+          onPress={() => { }}
         />
         <DrawerItem
           icon={({ color, size }) => (
@@ -145,7 +154,7 @@ function CustomDrawerContent(props: any) {
               <Text style={styles.itemText}>Chemist Visit</Text>
             </LabelWrapper>
           )}
-          onPress={() => {}}
+          onPress={() => { }}
         />
         <DrawerItem
           icon={({ color, size }) => (
@@ -161,7 +170,7 @@ function CustomDrawerContent(props: any) {
               </View>
             </LabelWrapper>
           )}
-          onPress={() => {}}
+          onPress={() => { }}
         />
 
         {/* Engagement */}
@@ -181,7 +190,7 @@ function CustomDrawerContent(props: any) {
               </View>
             </LabelWrapper>
           )}
-          onPress={() => {}}
+          onPress={() => { }}
         />
         <DrawerItem
           icon={({ color, size }) => (
@@ -192,7 +201,7 @@ function CustomDrawerContent(props: any) {
               <Text style={styles.itemText}>E-Detailing</Text>
             </LabelWrapper>
           )}
-          onPress={() => {}}
+          onPress={() => { }}
         />
         <DrawerItem
           icon={({ color, size }) => (
@@ -203,11 +212,11 @@ function CustomDrawerContent(props: any) {
               <Text style={styles.itemText}>KOL Management</Text>
             </LabelWrapper>
           )}
-          onPress={() => {}}
+          onPress={() => { }}
         />
 
         {/* Logout */}
-        <TouchableOpacity style={styles.logoutBtn} onPress={() => {}}>
+        <TouchableOpacity style={styles.logoutBtn} onPress={() => { }}>
           <Text style={styles.logoutText}>Logout</Text>
         </TouchableOpacity>
       </ScrollView>
@@ -224,13 +233,13 @@ export default function RootLayout() {
     <Drawer
       // provide custom drawer content so you can add items manually
       drawerContent={(props) => <CustomDrawerContent {...props} />}
-      
+
       screenOptions={({ navigation }) => ({
         drawerPosition: 'right',
         headerTitleAlign: 'left',
         // Left logo
         headerLeft: () => (
-          <View style={{ marginLeft: 12, marginRight: 8}}>
+          <View style={{ marginLeft: 12, marginRight: 8 }}>
             <View style={styles.logoWrap}>
               <Image source={require('../assets/images/logo-lu.png')} style={styles.logoImage} resizeMode="contain" />
             </View>
@@ -252,7 +261,7 @@ export default function RootLayout() {
             <Text style={styles.headerSubtitle}>Field Force Management</Text>
           </View>
         ),
-        
+
         // Header background (gradient)
         headerStyle: {
           backgroundColor: 'transparent',
@@ -295,7 +304,7 @@ const styles = StyleSheet.create({
     paddingVertical: 12,
     backgroundColor: 'transparent',
   },
-  container: { flex: 1, backgroundColor: '#fff',},
+  container: { flex: 1, backgroundColor: '#fff', },
   userDetailsContainer: {
     marginBottom: 20,
     backgroundColor: '#0A4DFF',
@@ -351,7 +360,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 0.5,
     borderColor: '#eee',
   },
-  itemText: {  fontSize: 16 },
+  itemText: { fontSize: 16 },
 
   badge: {
     backgroundColor: '#ff3d3d',
