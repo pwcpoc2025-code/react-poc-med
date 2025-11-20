@@ -1,18 +1,15 @@
 import { Ionicons } from "@expo/vector-icons";
 import { DrawerContentScrollView, DrawerItem } from "@react-navigation/drawer";
-import { LinearGradient } from "expo-linear-gradient";
 import { router, Slot } from "expo-router";
 import { Drawer } from "expo-router/drawer";
 import React from "react";
 import {
   Image,
-  Pressable,
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
-import COLORS from "../constants/LupinColors";
 
 // Helper: right arrow icon
 function RightArrow() {
@@ -456,55 +453,10 @@ export default function RootLayout() {
     <Drawer
       drawerContent={(props) => <CustomDrawerContent {...props} />}
       screenOptions={({ navigation }) => ({
-        drawerPosition: "right",
-        headerTitleAlign: "left",
-        drawerStyle: {
-          width: "45%",
-        },
-        // Left logo in header
-        headerLeft: () => (
-          <View style={{ marginLeft: 12, marginRight: 8 }}>
-            <View style={styles.logoWrap}>
-              <Image
-                source={require("../assets/images/logo-lu.png")}
-                style={styles.logoImage}
-                resizeMode="contain"
-              />
-            </View>
-          </View>
-        ),
-        // Right hamburger
-        headerRight: () => (
-          <Pressable
-            onPress={() => navigation.toggleDrawer()}
-            style={{ marginRight: 15 }}
-          >
-            <Ionicons name="menu" size={24} color={COLORS.utility.white} />
-          </Pressable>
-        ),
-        headerTitle: () => (
-          <View style={styles.headerTitleContainer}>
-            <Text style={styles.headerTitleText}>LUPIN CRM</Text>
-            <Text style={styles.headerSubtitle}>Field Force Management</Text>
-          </View>
-        ),
-        headerStyle: {
-          backgroundColor: "transparent",
-          shadowColor: "#000",
-          shadowOffset: { width: 0, height: 4 },
-          shadowOpacity: 0.2,
-          shadowRadius: 6,
-          elevation: 4,
-          height: 80,
-        },
-        headerBackground: () => (
-          <LinearGradient
-            colors={[LUPIN_GREEN_LEFT, LUPIN_GREEN_RIGHT]}
-            start={{ x: 0, y: 0 }}
-            end={{ x: 1, y: 0 }}
-            style={{ flex: 1 }}
-          />
-        ),
+        drawerPosition: 'right',
+        // hide the default header provided by the Drawer; we'll render
+        // the header inside the Tabs layout so only tab pages show it
+        headerShown: false,
       })}
     >
       <Slot />

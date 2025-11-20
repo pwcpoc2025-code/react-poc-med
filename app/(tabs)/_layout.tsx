@@ -2,12 +2,14 @@
 import { Tabs } from 'expo-router/tabs';
 import React from 'react';
 import LupinBottomTabBar from '../../components/LupinBottomTabBar';
+import LupinHeader from '../../components/LupinHeader';
 
 export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        headerShown: false,    // header is handled by the drawer (LupinHeader)
+        headerShown: true,
+        header: () => <LupinHeader />,
         tabBarStyle: { display: 'none' }, // we use our custom bar
       }}
       tabBar={(props) => <LupinBottomTabBar {...props} />}
