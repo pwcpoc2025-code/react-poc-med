@@ -1,6 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
-import type { DrawerHeaderProps } from '@react-navigation/drawer';
 import { LinearGradient } from 'expo-linear-gradient';
+import { useNavigation } from 'expo-router';
 import React from 'react';
 import {
     Image,
@@ -15,9 +15,10 @@ import {
 const LUPIN_GREEN_LEFT = '#01963f';
 const LUPIN_GREEN_RIGHT = '#008a37';
 
-const LupinHeader: React.FC<DrawerHeaderProps> = ({ navigation }) => {
+const LupinHeader: React.FC = () => {
+  const navigation = useNavigation();
   const openDrawer = () => {
-    navigation.toggleDrawer();
+    (navigation as any).toggleDrawer?.();
   };
 
   return (

@@ -23,6 +23,7 @@ import DailyPlanningScreen from '../screens/modals/DailyPlanningScreen'
 
 const HomeScreen = () => {
 	const navigation = useNavigation();
+
 	const [modalVisible, setModalVisible] = useState(false);
 	const [welcomeModal, setWelcomeModal] = useState(true)
 

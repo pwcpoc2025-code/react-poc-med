@@ -3,6 +3,7 @@ import { StyleSheet } from 'react-native';
 export default StyleSheet.create({
     safe: { flex: 1, backgroundColor: '#fff' },
     container: { alignItems: 'center', paddingTop: 20, paddingBottom: 40 },
+    logoLarge: { width: 110, height: 110, marginBottom: 8 },
     title: { fontSize: 32, fontWeight: '700', color: '#15803D', letterSpacing: 0.5 },
     subtitle: { fontSize: 14, color: '#6B7280', marginTop: 6 },
     label: { fontSize: 14, color: '#111827', marginBottom: 6, fontWeight: '600' },
