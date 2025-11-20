@@ -10,6 +10,7 @@ import {
   Text,
   View,
 } from "react-native";
+import ReportNewCallModal from "../modals/ReportNewCallModal";
 
 type CallStatus = "Submitted" | "Approved";
 
@@ -67,6 +68,7 @@ const CALLS: CallItem[] = [
 
 export default function CallsScreen() {
   const [activeTab, setActiveTab] = useState<"All" | "Submitted" | "Approved">("All");
+  const [showNewCall, setShowNewCall] = useState(false);
 
   const filteredCalls = useMemo(() => {
     if (activeTab === "All") return CALLS;
@@ -83,14 +85,16 @@ export default function CallsScreen() {
           <Text style={styles.headerTitle}>Call Reporting</Text>
 
           <Pressable
-            style={styles.newCallButton}
-            onPress={() => {
-              // hook your navigation / action here
-            }}
-          >
-            <Ionicons name="add" size={18} color="#ffffff" />
-            <Text style={styles.newCallText}>New Call</Text>
-          </Pressable>
+  style={styles.newCallButton}
+  onPress={() => setShowNewCall(true)}
+>
+  <Ionicons name="add" size={18} color="#ffffff" />
+  <Text style={styles.newCallText}>New Call</Text>
+</Pressable>
+ <ReportNewCallModal
+        visible={showNewCall}
+        onClose={() => setShowNewCall(false)}
+      />
         </View>
 
         <ScrollView
