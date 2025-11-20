@@ -643,6 +643,245 @@ const AddExpenseModal: React.FC<AddExpenseModalProps> = ({
   );
 };
 
+type ZonesModalProps = {
+  visible: boolean;
+  onClose: () => void;
+};
+
+const GeographicalZonesModal: React.FC<ZonesModalProps> = ({
+  visible,
+  onClose,
+}) => {
+  return (
+    <Modal visible={visible} transparent animationType="fade">
+      <View
+        style={{
+          flex: 1,
+          backgroundColor: "rgba(15,23,42,0.35)",
+          justifyContent: "center",
+          alignItems: "center",
+          paddingHorizontal: 12,
+        }}
+      >
+        <View
+          style={{
+            width: "100%",
+            maxWidth: 420,
+            maxHeight: "90%",
+            backgroundColor: "#ffffff",
+            borderRadius: 12,
+            paddingHorizontal: 16,
+            paddingTop: 14,
+            paddingBottom: 12,
+          }}
+        >
+          {/* Header */}
+          <View
+            style={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              marginBottom: 8,
+            }}
+          >
+            <View>
+              <Text
+                style={{
+                  fontSize: 15,
+                  fontWeight: "700",
+                  color: "#111827",
+                }}
+              >
+                Geographical Zones & TA Rates
+              </Text>
+              <Text
+                style={{
+                  fontSize: 11,
+                  color: "#9ca3af",
+                  marginTop: 2,
+                }}
+              >
+                Backend TA ranges based on territory classification
+              </Text>
+            </View>
+            <Pressable onPress={onClose} hitSlop={10}>
+              <Ionicons name="close" size={20} color="#9ca3af" />
+            </Pressable>
+          </View>
+
+          <ScrollView showsVerticalScrollIndicator={false}>
+            {/* Zone cards */}
+            {[
+              {
+                title: "Zone A - Metropolitan",
+                ta: "₹500 TA",
+                tag: "Zone A",
+                tagColor: "#fce7f3",
+                tagTextColor: "#9d174d",
+                cities:
+                  "Mumbai, Delhi, Bangalore, Chennai - Major metro cities",
+              },
+              {
+                title: "Zone B - Tier 1 Cities",
+                ta: "₹400 TA",
+                tag: "Zone B",
+                tagColor: "#e0f2fe",
+                tagTextColor: "#075985",
+                cities: "Pune, Hyderabad, Kolkata, Ahmedabad",
+              },
+              {
+                title: "Zone C - Tier 2 Cities",
+                ta: "₹300 TA",
+                tag: "Zone C",
+                tagColor: "#dcfce7",
+                tagTextColor: "#166534",
+                cities: "Nagpur, Indore, Lucknow, Jaipur",
+              },
+              {
+                title: "Zone D - Rural Areas",
+                ta: "₹250 TA",
+                tag: "Zone D",
+                tagColor: "#fef9c3",
+                tagTextColor: "#854d0e",
+                cities: "Rural and semi-urban territories",
+              },
+            ].map((zone) => (
+              <View
+                key={zone.title}
+                style={{
+                  borderRadius: 10,
+                  borderWidth: 1,
+                  borderColor: "#e5e7eb",
+                  padding: 12,
+                  marginBottom: 10,
+                }}
+              >
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    marginBottom: 6,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 13,
+                      fontWeight: "700",
+                      color: "#111827",
+                    }}
+                  >
+                    {zone.title}
+                  </Text>
+                  <View
+                    style={{
+                      backgroundColor: "#eff6ff",
+                      borderRadius: 999,
+                      paddingHorizontal: 10,
+                      paddingVertical: 4,
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 11,
+                        fontWeight: "600",
+                        color: "#1d4ed8",
+                      }}
+                    >
+                      {zone.ta}
+                    </Text>
+                  </View>
+                </View>
+
+                <Text
+                  style={{
+                    fontSize: 11,
+                    color: "#6b7280",
+                    marginBottom: 8,
+                  }}
+                >
+                  {zone.cities}
+                </Text>
+
+                <View
+                  style={{
+                    alignSelf: "flex-start",
+                    borderRadius: 999,
+                    paddingHorizontal: 10,
+                    paddingVertical: 3,
+                    backgroundColor: zone.tagColor,
+                  }}
+                >
+                  <Text
+                    style={{
+                      fontSize: 11,
+                      fontWeight: "600",
+                      color: zone.tagTextColor,
+                    }}
+                  >
+                    {zone.tag}
+                  </Text>
+                </View>
+              </View>
+            ))}
+
+            {/* DA rates card */}
+            <View
+              style={{
+                borderRadius: 10,
+                borderWidth: 1,
+                borderColor: "#e0f2fe",
+                backgroundColor: "#eff6ff",
+                padding: 12,
+                marginTop: 4,
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 13,
+                  fontWeight: "700",
+                  color: "#111827",
+                  marginBottom: 8,
+                }}
+              >
+                DA Rates by Station Type
+              </Text>
+              {[
+                ["Local Station", "₹450"],
+                ["Outstation", "₹750"],
+                ["Next Station", "₹600"],
+              ].map(([label, value]) => (
+                <View
+                  key={label}
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    marginBottom: 4,
+                  }}
+                >
+                  <Text style={{ fontSize: 12, color: "#4b5563" }}>
+                    {label}:
+                  </Text>
+                  <Text
+                    style={{
+                      fontSize: 12,
+                      fontWeight: "600",
+                      color: "#111827",
+                    }}
+                  >
+                    {value}
+                  </Text>
+                </View>
+              ))}
+            </View>
+          </ScrollView>
+        </View>
+      </View>
+    </Modal>
+  );
+};
+
+
 /* ---------- Expense Details Modal ---------- */
 
 type DetailsModalProps = {
@@ -1002,7 +1241,7 @@ export default function ExpenseManagement(): JSX.Element {
     if (activeTab === "All") return EXPENSES;
     return EXPENSES.filter((e) => e.status === activeTab);
   }, [activeTab]);
-
+const [zonesVisible, setZonesVisible] = useState(false);
   const summaryHorizontal = !isPhone;
   const statsTwoCol = !isPhone;
 
@@ -1312,39 +1551,76 @@ export default function ExpenseManagement(): JSX.Element {
           </View>
 
           {/* Policy box */}
-          <View
-            style={{
-              backgroundColor: "#ecfeff",
-              borderRadius: 12,
-              padding: 14,
-              marginBottom: 16,
-              borderWidth: 1,
-              borderColor: "#e0f2fe",
-            }}
-          >
-            <Text
-              style={{
-                fontWeight: "700",
-                marginBottom: 6,
-                color: "#0f172a",
-              }}
-            >
-              Expense Policy Guidelines
-            </Text>
-            <Text
-              style={{
-                color: "#374151",
-                fontSize: 12,
-                lineHeight: 18,
-              }}
-            >
-              • TA auto-calculated based on geographical zone{"\n"}
-              • DA varies by station type: Local (₹450), Next Station (₹600),
-              Outstation (₹750){"\n"}
-              • Other expenses require prior approval for
-              outstation/next-station calls
-            </Text>
-          </View>
+<View
+  style={{
+    backgroundColor: "#ecfeff",
+    borderRadius: 12,
+    padding: 14,
+    marginBottom: 16,
+    borderWidth: 1,
+    borderColor: "#e0f2fe",
+  }}
+>
+  {/* Title + View Zones on the right */}
+  <View
+    style={{
+      flexDirection: "row",
+      alignItems: "center",
+      justifyContent: "space-between",
+      marginBottom: 6,
+    }}
+  >
+    <View style={{ flexDirection: "row", alignItems: "center" }}>
+      <Ionicons
+        name="information-circle-outline"
+        size={14}
+        color="#06b6d4"
+        style={{ marginRight: 6 }}
+      />
+      <Text
+        style={{
+          fontWeight: "700",
+          color: "#0f172a",
+          fontSize: 13,
+        }}
+      >
+        Expense Policy Guidelines
+      </Text>
+    </View>
+
+    <Pressable
+      onPress={() => setZonesVisible(true)}
+      style={{ flexDirection: "row", alignItems: "center" }}
+    >
+      <Text
+        style={{
+          fontSize: 11,
+          fontWeight: "600",
+          color: "#0ea5e9",
+          marginRight: 3,
+        }}
+      >
+        View Zones
+      </Text>
+      <Ionicons name="chevron-forward" size={12} color="#0ea5e9" />
+    </Pressable>
+  </View>
+
+  <Text
+    style={{
+      color: "#374151",
+      fontSize: 12,
+      lineHeight: 18,
+    }}
+  >
+    • TA auto-calculated based on geographical zone{"\n"}
+    • DA varies by station type: Local (₹450), Next Station (₹600),
+    Outstation (₹750){"\n"}
+    • Other expenses require prior approval for
+    outstation/next-station calls
+  </Text>
+</View>
+
 
           {/* Tabs */}
           <View
@@ -1703,6 +1979,11 @@ export default function ExpenseManagement(): JSX.Element {
         visible={detailsVisible}
         onClose={() => setDetailsVisible(false)}
       />
+      <GeographicalZonesModal
+  visible={zonesVisible}
+  onClose={() => setZonesVisible(false)}
+/>
+
     </SafeAreaView>
   );
 }
