@@ -4,7 +4,6 @@ import React, { JSX, useMemo, useState } from "react";
 import {
   Modal,
   Pressable,
-  SafeAreaView,
   ScrollView,
   StatusBar,
   Text,
@@ -12,6 +11,7 @@ import {
   View,
   useWindowDimensions
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 /* ---------- Types & Data ---------- */
 type ExpenseStatus = "Pending" | "Approved";

@@ -29,7 +29,7 @@ const LupinHeader: React.FC = () => {
       end={{ x: 1, y: 0 }}
       style={styles.container}
     >
-      <SafeAreaView style={styles.safeArea}>
+      <SafeAreaView edges={['top']} style={styles.safeArea}>
         <View style={styles.content}>
           {/* Left: logo + titles */}
           <View style={styles.left}>
@@ -66,7 +66,7 @@ const LupinHeader: React.FC = () => {
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: Platform.OS === 'android' ? 24 : 0,
+    paddingTop: Platform.OS === 'android' ? 0 : 0,
   },
   safeArea: {
     width: '100%',
@@ -77,6 +77,7 @@ const styles = StyleSheet.create({
     paddingVertical: 10,
     alignItems: 'center',
     justifyContent: 'space-between',
+    boxShadow: '0px 10px 10px rgba(0, 0, 0, 0.1)',
   },
   left: {
     flexDirection: 'row',
