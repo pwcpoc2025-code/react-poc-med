@@ -27,63 +27,64 @@ export default function AnalyticsScreen() {
   const [activeTab, setActiveTab] = useState<TabKey>("leaderboard");
 
   return (
+    <View style={{flex:1, marginBottom: 40, backgroundColor:COLORS.brand.lupinGreen}}>
     <SafeAreaView style={styles.screen}>
       {/* GREEN PAGE HEADER */}
       <View
-  style={{
-    width: "100%",
-    paddingHorizontal: 16,
-    paddingVertical: 14,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "space-between",
-    backgroundColor: "transparent",
-  }}
->
-  {/* LEFT */}
-  <View
-    style={{
-      flexDirection: "row",
-      alignItems: "center",
-      gap: 10,
-    }}
-  >
-    
+        style={{
+          width: "100%",
+          paddingHorizontal: 16,
+          paddingVertical: 14,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          backgroundColor: "transparent",
+        }}
+      >
+        {/* LEFT */}
+        <View
+          style={{
+            flexDirection: "row",
+            alignItems: "center",
+            gap: 10,
+          }}
+        >
 
-    <Text
-      style={{
-        fontSize: 22,
-        fontWeight: "400",
-        color: "#111827",
-      }}
-    >
-      Analytics &amp; Reports
-    </Text>
-  </View>
 
-  {/* RIGHT BTN */}
-  <TouchableOpacity
-    onPress={() => console.log("Change range")}
-    style={{
-      paddingHorizontal: 12,
-      paddingVertical: 6,
-      borderRadius: 999,
-      borderWidth: 1,
-      borderColor: "#d1d5db",
-      backgroundColor: "#ffffff",
-    }}
-  >
-    <Text
-      style={{
-        fontSize: 13,
-        fontWeight: "600",
-        color: "#111827",
-      }}
-    >
-      This Month ⌵
-    </Text>
-  </TouchableOpacity>
-</View>
+          <Text
+            style={{
+              fontSize: 22,
+              fontWeight: "400",
+              color: "#111827",
+            }}
+          >
+            Analytics &amp; Reports
+          </Text>
+        </View>
+
+        {/* RIGHT BTN */}
+        <TouchableOpacity
+          onPress={() => console.log("Change range")}
+          style={{
+            paddingHorizontal: 12,
+            paddingVertical: 6,
+            borderRadius: 999,
+            borderWidth: 1,
+            borderColor: "#d1d5db",
+            backgroundColor: "#ffffff",
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 13,
+              fontWeight: "600",
+              color: "#111827",
+            }}
+          >
+            This Month ⌵
+          </Text>
+        </TouchableOpacity>
+      </View>
 
       {/* BODY */}
       <ScrollView
@@ -194,7 +195,7 @@ export default function AnalyticsScreen() {
           {activeTab === "territory" && <TerritoryTab />}
         </View>
 
-        
+
 
         {/* Recent Achievements (kept separate from tabs) */}
         <RecentAchievements />
@@ -203,6 +204,7 @@ export default function AnalyticsScreen() {
         <MonthlyGoals />
       </ScrollView>
     </SafeAreaView>
+    </View>
   );
 };
 
@@ -288,8 +290,8 @@ const TabSwitcher: React.FC<TabProps> = ({ activeTab, onChange }) => (
         tab === "leaderboard"
           ? "Leaderboard"
           : tab === "products"
-          ? "Products"
-          : "Territory";
+            ? "Products"
+            : "Territory";
       const isActive = activeTab === tab;
       return (
         <TouchableOpacity
