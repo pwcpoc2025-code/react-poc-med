@@ -1,15 +1,17 @@
 import { useNavigation } from '@react-navigation/native';
 import { router } from 'expo-router';
 import React, { useState } from 'react';
-import { Animated, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Animated, Image, KeyboardAvoidingView, Platform, ScrollView, StatusBar, StyleSheet, Text, TextInput, TouchableOpacity, View } from "react-native";
+import { SafeAreaView, useSafeAreaInsets } from 'react-native-safe-area-context';
 import LupinIcons, { IconBackIOS } from '../../constants/LupinIcons';
+
 
 const Index = () => {
   const smartNudges = ["Location Alert", "Post-Call Check", "Literature Help"];
   const [open, setOpen] = useState(false);
   const scaleAnim = new Animated.Value(0);
   const navigation = useNavigation();
+  const insets = useSafeAreaInsets();
 
   const openWidget = () => {
     setOpen(true);
@@ -42,176 +44,182 @@ const Index = () => {
   ];
 
   return (
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      keyboardVerticalOffset={Platform.OS === 'ios' ? 0 : 20}
+    >
+      <View style={[{ flex: 1, backgroundColor: "#fff" }]}>
+        <StatusBar translucent={false} barStyle={'default'} backgroundColor="#039F73" />
+        {/* Header: Lupin AI Assistant */}
+        <SafeAreaView edges={['top', 'left', 'right']}>
+          <View style={styles.header}>
 
-    <View style={{ flex: 1 }}>
-      {/* Header: Lupin AI Assistant */}
-      <SafeAreaView edges={['top']}>
-        <View style={styles.header}>
+            <View style={styles.headerLeft}>
+              <TouchableOpacity style={styles.backButton} onPress={() => router.replace({ pathname: '/(tabs)', params: { openDrawer: '1' } } as any)}>
+                <IconBackIOS />
+              </TouchableOpacity>
 
-          <View style={styles.headerLeft}>
-            <TouchableOpacity style={styles.backButton} onPress={() =>  router.replace({ pathname: '/(tabs)', params: { openDrawer: '1' } } as any) }>
-              <IconBackIOS />
-            </TouchableOpacity>
-
-            {/* <View style={styles.avatar}>
+              {/* <View style={styles.avatar}>
             <Text style={styles.avatarText}>L</Text>
           </View> */}
 
-            <View style={styles.headerText}>
-              <Text style={styles.headerTitle}>Lupin AI Assistant</Text>
-              <Text style={styles.headerSubtitle}>Powered by Intelligent Insights</Text>
-            </View>
-          </View>
-
-
-        </View>
-      </SafeAreaView>
-      <ScrollView contentContainerStyle={styles.scrollContent} style={styles.container}>
-        {/* Smart Nudges Section */}
-        <Text style={styles.sectionTitle}>💡 Smart Nudges</Text>
-
-        <View style={styles.row}>
-          {smartNudges.map((item, index) => (
-            <TouchableOpacity key={index} style={styles.pill}>
-              <Text style={styles.pillText}>{item}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-
-        {/* Quick Questions Section */}
-        <Text style={[styles.sectionTitle, { marginTop: 20 }]}>Quick Questions</Text>
-
-        <View style={styles.wrapContainer}>
-          {quickQuestions.map((item, index) => (
-            <TouchableOpacity key={index} style={styles.pill}>
-              <Text style={styles.pillText}>{item}</Text>
-            </TouchableOpacity>
-          ))}
-        </View>
-
-
-
-        {/* Smart Notification */}
-        <View style={styles.smartNotificationContainer}>
-          <Text style={styles.smartNotificationLabel}>🌟  Smart Notification</Text>
-
-          <View style={styles.notificationBubble}>
-            <Text style={styles.notificationText}>
-              👋  Good Morning, Vaibhav! Welcome to a new day!
-            </Text>
-          </View>
-          <Text style={styles.timeText}>08:00 AM</Text>
-        </View>
-        <View style={{ marginBottom: 16, marginTop: 20 }}>
-          <Image source={require('../../assets/images/logo-lu.png')} style={styles.headerLogo} />
-        </View>
-
-        {/* Chat Message 1 */}
-        <View style={styles.chatContainer}>
-          <View style={styles.chatBubble}>
-            <Text style={styles.chatText}>
-              Ready to make today count? Here’s what’s on your agenda:
-            </Text>
-          </View>
-          <Text style={styles.timeText}>08:00 AM</Text>
-        </View>
-        <View style={{ marginBottom: 16, marginTop: 20 }}>
-          <Image source={require('../../assets/images/logo-lu.png')} style={styles.headerLogo} />
-        </View>
-
-        {/* Chat Message 2 – Doctor List Card */}
-        <View style={styles.chatContainer}>
-          <View style={styles.infoCard}>
-            <Text style={styles.cardTitle}>
-              Today you’re working in **Borivali patch**. You have **10 doctors** scheduled to meet:
-            </Text>
-
-            <Text style={styles.doctorHeading}>👨‍⚕️ **Doctors to Meet Today**</Text>
-
-            <View style={{ marginTop: 6 }}>
-              {[
-                "Dr. Rajesh Kumar – City Care Clinic (9:00 AM)",
-                "Dr. Anil Mehta – Global Heart Institute (10:30 AM)",
-                "Dr. Priya Singh – Diabetes Care Center (11:30 AM)",
-                "Dr. Suresh Patel – Wellness Multispecialty (1:00 PM)",
-                "Dr. Meera Iyer – Apollo Clinic (2:30 PM)",
-                "Dr. Amit Shah – Fortis Healthcare (3:30 PM)",
-                "Dr. Neha Desai – Lilavati Hospital (4:30 PM)",
-                "Dr. Ravi Kumar – Koladeb Hospital (5:00 PM)",
-                "Dr. Sneha Reddy – Hinduja Hospital (5:30 PM)",
-                "Dr. Karan Malhotra – Breach Candy Hospital (6:00 PM)",
-              ].map((item, idx) => (
-                <Text key={idx} style={styles.doctorItem}>• {item}</Text>
-              ))}
+              <View style={styles.headerText}>
+                <Text style={styles.headerTitle}>Lupin AI Assistant</Text>
+                <Text style={styles.headerSubtitle}>Powered by Intelligent Insights</Text>
+              </View>
             </View>
 
-            {/* Grey pill */}
-            <View style={styles.locationPill}>
-              <Text style={styles.locationPillText}>📍 Working in Borivali</Text>
-            </View>
 
-            {/* Buttons */}
-            <View style={styles.buttonRow}>
-              <TouchableOpacity style={styles.primaryButton}>
-                <Text style={styles.primaryButtonText}>View Route Map</Text>
+          </View>
+        </SafeAreaView>
+        <ScrollView contentContainerStyle={styles.scrollContent} style={styles.container}>
+          {/* Smart Nudges Section */}
+          <Text style={styles.sectionTitle}>💡 Smart Nudges</Text>
+
+          <View style={styles.row}>
+            {smartNudges.map((item, index) => (
+              <TouchableOpacity key={index} style={styles.pill}>
+                <Text style={styles.pillText}>{item}</Text>
               </TouchableOpacity>
+            ))}
+          </View>
 
-              <TouchableOpacity style={styles.secondaryButton}>
-                <Text style={styles.secondaryButtonText}>Download Schedule</Text>
+          {/* Quick Questions Section */}
+          <Text style={[styles.sectionTitle, { marginTop: 20 }]}>Quick Questions</Text>
+
+          <View style={styles.wrapContainer}>
+            {quickQuestions.map((item, index) => (
+              <TouchableOpacity key={index} style={styles.pill}>
+                <Text style={styles.pillText}>{item}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+
+
+
+          {/* Smart Notification */}
+          <View style={styles.smartNotificationContainer}>
+            <Text style={styles.smartNotificationLabel}>🌟  Smart Notification</Text>
+
+            <View style={styles.notificationBubble}>
+              <Text style={styles.notificationText}>
+                👋  Good Morning, Vaibhav! Welcome to a new day!
+              </Text>
+            </View>
+            <Text style={styles.timeText}>08:00 AM</Text>
+          </View>
+          <View style={{ marginBottom: 16, marginTop: 20 }}>
+            <Image source={require('../../assets/images/logo-lu.png')} style={styles.headerLogo} />
+          </View>
+
+          {/* Chat Message 1 */}
+          <View style={styles.chatContainer}>
+            <View style={styles.chatBubble}>
+              <Text style={styles.chatText}>
+                Ready to make today count? Here’s what’s on your agenda:
+              </Text>
+            </View>
+            <Text style={styles.timeText}>08:00 AM</Text>
+          </View>
+          <View style={{ marginBottom: 16, marginTop: 20 }}>
+            <Image source={require('../../assets/images/logo-lu.png')} style={styles.headerLogo} />
+          </View>
+
+          {/* Chat Message 2 – Doctor List Card */}
+          <View style={styles.chatContainer}>
+            <View style={styles.infoCard}>
+              <Text style={styles.cardTitle}>
+                Today you’re working in **Borivali patch**. You have **10 doctors** scheduled to meet:
+              </Text>
+
+              <Text style={styles.doctorHeading}>👨‍⚕️ **Doctors to Meet Today**</Text>
+
+              <View style={{ marginTop: 6 }}>
+                {[
+                  "Dr. Rajesh Kumar – City Care Clinic (9:00 AM)",
+                  "Dr. Anil Mehta – Global Heart Institute (10:30 AM)",
+                  "Dr. Priya Singh – Diabetes Care Center (11:30 AM)",
+                  "Dr. Suresh Patel – Wellness Multispecialty (1:00 PM)",
+                  "Dr. Meera Iyer – Apollo Clinic (2:30 PM)",
+                  "Dr. Amit Shah – Fortis Healthcare (3:30 PM)",
+                  "Dr. Neha Desai – Lilavati Hospital (4:30 PM)",
+                  "Dr. Ravi Kumar – Koladeb Hospital (5:00 PM)",
+                  "Dr. Sneha Reddy – Hinduja Hospital (5:30 PM)",
+                  "Dr. Karan Malhotra – Breach Candy Hospital (6:00 PM)",
+                ].map((item, idx) => (
+                  <Text key={idx} style={styles.doctorItem}>• {item}</Text>
+                ))}
+              </View>
+
+              {/* Grey pill */}
+              <View style={styles.locationPill}>
+                <Text style={styles.locationPillText}>📍 Working in Borivali</Text>
+              </View>
+
+              {/* Buttons */}
+              <View style={styles.buttonRow}>
+                <TouchableOpacity style={styles.primaryButton}>
+                  <Text style={styles.primaryButtonText}>View Route Map</Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity style={styles.secondaryButton}>
+                  <Text style={styles.secondaryButtonText}>Download Schedule</Text>
+                </TouchableOpacity>
+              </View>
+
+            </View>
+
+            <Text style={styles.timeText}>08:02 AM</Text>
+          </View>
+
+          {/* Bottom input / help bar (matches provided image) */}
+          <View style={styles.footerContainer}>
+            <View style={styles.inputRow}>
+              <TextInput
+                style={styles.input}
+                placeholder="Ask me anything about products, dosing, competitors..."
+                placeholderTextColor="#9AA0A6"
+                multiline={false}
+                returnKeyType="send"
+              />
+
+              <TouchableOpacity style={styles.sendButton}>
+                <LupinIcons.ArrowUpRight size={18} color="#fff" strokeWidth={2} />
               </TouchableOpacity>
             </View>
 
           </View>
-
-          <Text style={styles.timeText}>08:02 AM</Text>
-        </View>
-
-        {/* Bottom input / help bar (matches provided image) */}
-        <View style={styles.footerContainer}>
-          <View style={styles.inputRow}>
-            <TextInput
-              style={styles.input}
-              placeholder="Ask me anything about products, dosing, competitors..."
-              placeholderTextColor="#9AA0A6"
-              multiline={false}
-              returnKeyType="send"
-            />
-
-            <TouchableOpacity style={styles.sendButton}>
-              <LupinIcons.ArrowUpRight size={18} color="#fff" strokeWidth={2} />
-            </TouchableOpacity>
-          </View>
-
           <Text style={styles.footerCaption}>Powered by Lupin AI • Your intelligent field assistant</Text>
-        </View>
-      </ScrollView>
+        </ScrollView>
 
-      {/* Floating Bubble */}
-      {!open && (
-        <TouchableOpacity
-          style={styles.fab}
-          onPress={() => openWidget()}
-        >
-          <Text style={styles.fabText}>+</Text>
-        </TouchableOpacity>
-      )}
+        {/* Floating Bubble */}
+        {!open && (
+          <TouchableOpacity
+            style={styles.fab}
+            onPress={() => openWidget()}
+          >
+            <Text style={styles.fabText}>+</Text>
+          </TouchableOpacity>
+        )}
 
-      {/* Floating Chat Widget */}
-      {open && (
-        <Animated.View style={[styles.widget, { transform: [{ scale: scaleAnim }] }]}>
-          <View style={styles.bubbleheader}>
-            <Text style={styles.title}>Chat Support</Text>
-            <TouchableOpacity onPress={closeWidget}>
-              <Text style={{ color: "red" }}>✕</Text>
-            </TouchableOpacity>
-          </View>
+        {/* Floating Chat Widget */}
+        {open && (
+          <Animated.View style={[styles.widget, { transform: [{ scale: scaleAnim }] }]}>
+            <View style={styles.bubbleheader}>
+              <Text style={styles.title}>Chat Support</Text>
+              <TouchableOpacity onPress={closeWidget}>
+                <Text style={{ color: "red" }}>✕</Text>
+              </TouchableOpacity>
+            </View>
 
-          <View style={styles.body}>
-            <Text>Hello! How can I help you?</Text>
-          </View>
-        </Animated.View>
-      )}
-    </View>
+            <View style={styles.body}>
+              <Text>Hello! How can I help you?</Text>
+            </View>
+          </Animated.View>
+        )}
+      </View>
+    </KeyboardAvoidingView>
   );
 }
 
@@ -330,7 +338,7 @@ const styles = StyleSheet.create({
     borderColor: "#CCC",
   },
   secondaryButtonText: { color: "#333", fontSize: 14, fontWeight: "500" },
-  scrollContent: { paddingBottom: 0 },
+  scrollContent: { paddingBottom: 20 },
 
   /* Footer input bar */
   footerContainer: {
@@ -360,7 +368,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   sendButtonText: { color: 'white', fontSize: 18 },
-  footerCaption: { fontSize: 11, color: '#888', marginTop: 8, textAlign: 'center' },
+  footerCaption: { fontSize: 11, color: '#888', marginTop: 25, marginBottom: 10, textAlign: 'center' },
   fab: {
     position: 'absolute',
     right: 16,

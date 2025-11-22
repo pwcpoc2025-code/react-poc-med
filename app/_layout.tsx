@@ -5,6 +5,7 @@ import { Drawer } from "expo-router/drawer";
 import React from "react";
 import {
   Image,
+  StatusBar,
   StyleSheet,
   Text,
   TouchableOpacity,
@@ -458,6 +459,7 @@ export default function RootLayout() {
         headerShown: false,
       })}
     >
+      <StatusBar barStyle="light-content" backgroundColor={LUPIN_GREEN_LEFT} />
       <Slot />
     </Drawer>
   );
@@ -648,7 +650,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 18,
     marginTop: 22,
     paddingVertical: 12,
-    borderRadius: 999,
+    borderRadius: 15,
     backgroundColor: "#dc2626",
     flexDirection: "row",
     alignItems: "center",
