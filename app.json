@@ -8,14 +8,15 @@
     "scheme": "reactnativemedicalapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
-
-    "platforms": ["ios", "android", "web"],
-
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.react.lupin"
     },
-
     "android": {
       "package": "com.react.lupin",
       "versionCode": 1,
@@ -28,12 +29,10 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       }
     },
-
     "web": {
       "output": "static",
       "favicon": "./assets/images/favicon.png"
     },
-
     "plugins": [
       "expo-router",
       [
@@ -49,16 +48,14 @@
         }
       ]
     ],
-
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
     },
-
     "extra": {
       "router": {},
       "eas": {
-        "projectId": "236ee1fe-8889-4fcb-8778-c97dfdc31da7"
+        "projectId": "538b4368-a795-42e7-8e98-768d8a2fe8d5"
       }
     }
   }
