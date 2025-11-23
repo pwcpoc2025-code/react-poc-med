@@ -1,4 +1,5 @@
 // app/screens/CallsScreen.tsx
+import COLORS from "@/constants/LupinColors";
 import { FontAwesome5, Ionicons, MaterialIcons } from "@expo/vector-icons";
 import React, { useMemo, useState } from "react";
 import {
@@ -78,7 +79,7 @@ export default function CallsScreen() {
 
   return (
     <SafeAreaView style={styles.safe}>
-      <StatusBar barStyle="dark-content" />
+      <StatusBar barStyle="dark-content" translucent={false} animated backgroundColor={COLORS.brand.lupinGreen} />
       <View style={styles.container}>
         {/* Header */}
         <View style={styles.headerRow}>
