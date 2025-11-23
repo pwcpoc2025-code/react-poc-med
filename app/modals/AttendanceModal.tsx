@@ -1,13 +1,14 @@
 import { Ionicons } from '@expo/vector-icons';
+import * as Device from "expo-device";
 import * as Location from 'expo-location';
 import React, { useEffect, useState } from 'react';
 import {
-    Alert,
-    Modal,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  Alert,
+  Modal,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 
 type Props = {
@@ -84,7 +85,7 @@ const AttendanceModal: React.FC<Props> = ({ visible, onClose, onConfirm }) => {
       <View style={styles.backdrop}>
         <View style={styles.card}>
           <TouchableOpacity style={styles.close} onPress={onClose}>
-            <Ionicons name="close" size={20} color="#222" />
+            <Ionicons name="close" size={22} color="#222" />
           </TouchableOpacity>
 
           <Text style={styles.title}>Mark Your Attendance</Text>
@@ -132,6 +133,7 @@ const AttendanceModal: React.FC<Props> = ({ visible, onClose, onConfirm }) => {
     </Modal>
   );
 };
+const isIpad = Device.deviceType === Device.DeviceType.TABLET;
 
 const styles = StyleSheet.create({
   backdrop: {
@@ -139,7 +141,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(0,0,0,0.75)',
     alignItems: 'center',
     justifyContent: 'center',
-    padding: "20%",
+    padding: isIpad ? "20%" : 16,
   },
   card: {
     width: '100%',
@@ -153,9 +155,10 @@ const styles = StyleSheet.create({
     position: 'absolute',
     right: 12,
     top: 12,
-    padding: 6,
+    padding: 10,
+    zIndex: 10,
   },
-  title: { fontSize: 22, fontWeight: '700', color: '#111827' },
+  title: { fontSize: 18, fontWeight: '700', color: '#111827' },
   subtitle: { fontSize: 14, color: '#6b7280', marginTop: 6, marginBottom: 16 },
   infoCardPrimary: {
     backgroundColor: '#EEF4FF',

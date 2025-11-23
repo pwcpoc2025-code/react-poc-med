@@ -2,11 +2,11 @@ import FilterRoutesDrawer from "@/components/FilterRoutesDrawer";
 import { Ionicons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
-    ScrollView,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
+  ScrollView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -26,12 +26,13 @@ const COLORS = {
   chipSilver: "#BDC3C7",
   chipBronze: "#D35400",
   alert: "#FFF4F2",
+  headerBg: "#e5e7eb"
 };
 
 export default function RouteScreen() {
-   const [showFilter, setShowFilter] = useState(false);
+  const [showFilter, setShowFilter] = useState(false);
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView edges={['bottom']} style={styles.safeArea}>
       <View style={styles.container}>
         {/* NEW TOP BAR (like attached image) */}
         <View style={styles.topBar}>
@@ -39,12 +40,12 @@ export default function RouteScreen() {
 
           <TouchableOpacity style={styles.topBarFilterBtn}>
             <Ionicons name="funnel-outline" size={16} color={COLORS.textDark} />
-            <Text style={styles.topBarFilterText}  onPress={() => setShowFilter(true)}>Filters</Text>
+            <Text style={styles.topBarFilterText} onPress={() => setShowFilter(true)}>Filters</Text>
           </TouchableOpacity>
           <FilterRoutesDrawer
-        visible={showFilter}
-        onClose={() => setShowFilter(false)}
-      />
+            visible={showFilter}
+            onClose={() => setShowFilter(false)}
+          />
         </View>
 
         <ScrollView
@@ -125,8 +126,8 @@ export default function RouteScreen() {
                     i % 7 === 0
                       ? { backgroundColor: COLORS.low }
                       : i % 3 === 0
-                      ? { backgroundColor: COLORS.medium }
-                      : { backgroundColor: COLORS.high },
+                        ? { backgroundColor: COLORS.medium }
+                        : { backgroundColor: COLORS.high },
                   ]}
                 />
               ))}
@@ -519,11 +520,11 @@ const styles = StyleSheet.create({
   /* NEW TOP BAR */
   topBar: {
     paddingHorizontal: 16,
-    paddingVertical: 10,
+    paddingVertical: 16,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: COLORS.headerBg,
     // subtle bottom shadow like screenshot
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 2 },
@@ -532,8 +533,8 @@ const styles = StyleSheet.create({
     elevation: 2,
   },
   topBarTitle: {
-    fontSize: 18,
-    fontWeight: "600",
+    fontSize: 16,
+    fontWeight: "500",
     color: COLORS.textDark,
   },
   topBarFilterBtn: {

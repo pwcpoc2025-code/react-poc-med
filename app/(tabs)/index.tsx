@@ -39,17 +39,17 @@ const HomeScreen = () => {
 				<Pressable style={styles.attendanceBtn} onPress={() => setModalVisible(true)}>
 					<Text style={styles.attendanceText}>Mark Attendance</Text>
 				</Pressable>
-	</View>
-	<Modal
-		  visible={welcomeModal}
-		  animationType="fade"
-		  transparent
-		  onRequestClose={()=>setWelcomeModal(false)}
-		>
-        <DailyPlanningScreen setWelcomeModal={setWelcomeModal} />
-      </Modal>
-  <AttendanceModal visible={modalVisible} onClose={() => setModalVisible(false)} onConfirm={()=>setModalVisible(false)}/>
-	{/* Banners */}
+			</View>
+			<Modal
+				visible={welcomeModal}
+				animationType="fade"
+				transparent
+				onRequestClose={() => setWelcomeModal(false)}
+			>
+				<DailyPlanningScreen setWelcomeModal={setWelcomeModal} />
+			</Modal>
+			<AttendanceModal visible={modalVisible} onClose={() => setModalVisible(false)} onConfirm={() => setModalVisible(false)} />
+			{/* Banners */}
 			<View style={styles.banners}>
 				<LinearGradient colors={[COLORS.emerald[500], COLORS.emerald[600]]} style={styles.bannerCard}>
 					<View style={styles.bannerLeft}>
@@ -57,11 +57,11 @@ const HomeScreen = () => {
 							<IconCalendar size={18} color={COLORS.utility.white} />
 						</View>
 						<View style={{ marginLeft: 10 }}>
-							<Text style={styles.bannerSub}>Leave Balance</Text> 
+							<Text style={styles.bannerSub}>Leave Balance</Text>
 							<Text style={styles.bannerHeader}>12 days remaining</Text>
 						</View>
 					</View>
-					<Text style={styles.bannerAction}   onPress={() =>  router.push("/screens/field-activities/leave-attendance")}>Apply Leave →</Text>
+					<Text style={styles.bannerAction} onPress={() => router.push("/screens/field-activities/leave-attendance")}>Apply Leave →</Text>
 				</LinearGradient>
 
 				<LinearGradient colors={['#7C3AED', '#2563EB']} style={styles.bannerCardPurple}>
@@ -76,34 +76,34 @@ const HomeScreen = () => {
 					</View>
 					<Text style={styles.bannerAction}>Start Review →</Text>
 				</LinearGradient>
-								<LinearGradient colors={['#7C3AED', '#2563EB']} style={styles.bannerCardAI}>
-										<View style={styles.bannerLeft}>
-												<View style={styles.bannerIconCircleAI}>
-													<IconSparkles size={18} color={COLORS.utility.white} />
-												</View>
-												<View style={{ marginLeft: 10 }}>
-													<Text style={styles.bannerSubWhite}>AI Insight</Text>
-													<Text style={styles.bannerHeaderWhite}>You're on track to exceed monthly targets by 8%!</Text>
-												</View>
-										</View>
-										<Text style={styles.bannerActionWhite}>Smart</Text>
-								</LinearGradient>
+				<LinearGradient colors={['#7C3AED', '#2563EB']} style={styles.bannerCardAI}>
+					<View style={styles.bannerLeft}>
+						<View style={styles.bannerIconCircleAI}>
+							<IconSparkles size={18} color={COLORS.utility.white} />
+						</View>
+						<View style={{ marginLeft: 10 }}>
+							<Text style={styles.bannerSubWhite}>AI Insight</Text>
+							<Text style={styles.bannerHeaderWhite}>You're on track to exceed monthly targets by 8%!</Text>
+						</View>
+					</View>
+					<Text style={styles.bannerActionWhite}>Smart</Text>
+				</LinearGradient>
 			</View>
 
-	{/* Sales Targets */}
+			{/* Sales Targets */}
 			<View style={styles.sectionCard}>
 				<View style={styles.sectionHeader}>
 					<Text style={styles.sectionTitle}>Sales Targets - November</Text>
 					<TouchableOpacity>
-						<Text style={styles.viewDetails} onPress={() =>  router.push("/analytics")}>View Details</Text>
+						<Text style={styles.viewDetails} onPress={() => router.push("/analytics")}>View Details</Text>
 					</TouchableOpacity>
 				</View>
 				<View style={styles.targetsList}>
 					<ProgressBar label="Total Coverage" dotColor={COLORS.blue[600]} current={216} total={248} />
 					<ProgressBar label="V1" dotColor={COLORS.green[600]} current={45} total={52} />
-		  <ProgressBar label="V2 Coverage" dotColor={COLORS.ai.purple500} current={68} total={78} />
-		  <ProgressBar label="V2 Frequency Coverage" dotColor={COLORS.blue[600]} current={52} total={60} />
-		  <ProgressBar label="V3 Coverage" dotColor={COLORS.orange[500]} current={51} total={58} />
+					<ProgressBar label="V2 Coverage" dotColor={COLORS.ai.purple500} current={68} total={78} />
+					<ProgressBar label="V2 Frequency Coverage" dotColor={COLORS.blue[600]} current={52} total={60} />
+					<ProgressBar label="V3 Coverage" dotColor={COLORS.orange[500]} current={51} total={58} />
 				</View>
 			</View>
 
@@ -118,39 +118,39 @@ const HomeScreen = () => {
 				<ScrollView horizontal showsHorizontalScrollIndicator={false} style={{ marginTop: 12 }}>
 					<ScrollCards
 						name="Dr. Sharma"
-			type="Cardiologist"
-			tier="Gold Tier"
-			time="09:00 AM"
-			core="Core"
-			address="Breach Candy Hospital"
-			min="45 min"
-			km="2.3 km"
-			rx="High"
-			borderColor="#60A5FA"
+						type="Cardiologist"
+						tier="Gold Tier"
+						time="09:00 AM"
+						core="Core"
+						address="Breach Candy Hospital"
+						min="45 min"
+						km="2.3 km"
+						rx="High"
+						borderColor="#60A5FA"
 					/>
 					<ScrollCards
 						name="Dr. Patel"
-			type="Diabetologist"
-			tier="Silver Tier"
-			time="10:30 AM"
-			core="Super Core"
-			address="Malabar Hill Clinic"
-			min="30 min"
-			km="1.8 km"
-			rx="Medium"
-			borderColor="#FCA5A5"
+						type="Diabetologist"
+						tier="Silver Tier"
+						time="10:30 AM"
+						core="Super Core"
+						address="Malabar Hill Clinic"
+						min="30 min"
+						km="1.8 km"
+						rx="Medium"
+						borderColor="#FCA5A5"
 					/>
 					<ScrollCards
 						name="Dr. Mehta"
-			type="General Physician"
-			tier="Gold Tier"
-			time="12:00 PM"
-			core="Core"
-			address="Jaslok Hospital"
-			min="20 min"
-			km="3.2 km"
-			rx="Low"
-			borderColor="#34D399"
+						type="General Physician"
+						tier="Gold Tier"
+						time="12:00 PM"
+						core="Core"
+						address="Jaslok Hospital"
+						min="20 min"
+						km="3.2 km"
+						rx="Low"
+						borderColor="#34D399"
 					/>
 				</ScrollView>
 			</View>
@@ -162,7 +162,7 @@ const HomeScreen = () => {
 						<View style={styles.badgeRed}><Text style={styles.badgeText}>4</Text></View>
 					</View>
 					<TouchableOpacity>
-						<Text style={styles.viewDetails} onPress={() =>  router.push("/hcps")}>View All</Text>
+						<Text style={styles.viewDetails} onPress={() => router.push("/hcps")}>View All</Text>
 					</TouchableOpacity>
 				</View>
 
@@ -200,7 +200,7 @@ const HomeScreen = () => {
 						<View style={styles.badgeBlue}><Text style={styles.badgeText}>3</Text></View>
 					</View>
 					<TouchableOpacity>
-						<Text style={styles.viewDetails} onPress={() =>  router.push("/(tabs)")}>View All</Text>
+						<Text style={styles.viewDetails} onPress={() => router.push("/(tabs)")}>View All</Text>
 					</TouchableOpacity>
 				</View>
 
@@ -276,20 +276,20 @@ const HomeScreen = () => {
 					<Text style={styles.quickActionLabel}>View Route</Text>
 				</TouchableOpacity>
 			</View>
-						{/* Top Performer */}
-						<View style={{ marginTop: 12 }}>
-							<View style={styles.topPerformerBanner}>
-								<View style={styles.topPerformerLeft}>
-									<View style={styles.topPerformerIconCircle}>
-										<IconButtonCheck size={18} color={COLORS.utility.white} />
-									</View>
-									<View style={{ marginLeft: 12 }}>
-										<Text style={styles.topPerformerTitle}>Top Performer</Text>
-										<Text style={styles.topPerformerSubtitle}>You're in the top 10% this month!</Text>
-									</View>
-								</View>
-							</View>
+			{/* Top Performer */}
+			<View style={{ marginTop: 12, marginBottom: 100}}>
+				<View style={styles.topPerformerBanner}>
+					<View style={styles.topPerformerLeft}>
+						<View style={styles.topPerformerIconCircle}>
+							<IconButtonCheck size={18} color={COLORS.utility.white} />
 						</View>
+						<View style={{ marginLeft: 12 }}>
+							<Text style={styles.topPerformerTitle}>Top Performer</Text>
+							<Text style={styles.topPerformerSubtitle}>You're in the top 10% this month!</Text>
+						</View>
+					</View>
+				</View>
+			</View>
 		</RNScroll>
 	)
 }
@@ -297,41 +297,41 @@ const HomeScreen = () => {
 export default HomeScreen
 
 const styles = StyleSheet.create({
-  screen: { flex: 1, backgroundColor: COLORS.gray[100] },
-  container: { padding: 16, paddingBottom: 80 },
-  headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 },
-  title: { fontSize: 22, fontWeight: '700', color: COLORS.gray[900] },
-  subtitle: { fontSize: 14, color: COLORS.gray[700] },
-  date: { fontSize: 12, color: COLORS.gray[500] },
-  attendanceBtn: { backgroundColor: COLORS.blue[600], paddingHorizontal: 12, paddingVertical: 8, borderRadius: 8 },
-  attendanceText: { color: '#fff', fontWeight: '700' },
+	screen: { flex: 1, backgroundColor: COLORS.gray[100] },
+	container: { padding: 16, paddingBottom: 80 },
+	headerRow: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 },
+	title: { fontSize: 22, fontWeight: '700', color: COLORS.gray[900] },
+	subtitle: { fontSize: 14, color: COLORS.gray[700] },
+	date: { fontSize: 12, color: COLORS.gray[500] },
+	attendanceBtn: { backgroundColor: COLORS.blue[600], paddingHorizontal: 12, paddingVertical: 8, borderRadius: 8 },
+	attendanceText: { color: '#fff', fontWeight: '700' },
 
-  banners: { marginTop: 8 },
-  bannerCard: { borderRadius: 12, padding: 12, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 },
-  bannerCardPurple: { borderRadius: 12, padding: 12, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 },
-  bannerCardAI: { borderRadius: 12, padding: 12, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  bannerSub: { color: COLORS.utility.white, fontSize: 12 },
-  bannerHeader: { color: COLORS.utility.white, fontSize: 16, fontWeight: '700' },
-  bannerSubWhite: { color: COLORS.utility.white, fontSize: 12 },
-  bannerHeaderWhite: { color: COLORS.utility.white, fontSize: 14, fontWeight: '600' },
-  bannerAction: { color: COLORS.utility.white, fontSize: 13, fontWeight: '600' },
-  bannerActionWhite: { color: COLORS.utility.white, fontSize: 13, fontWeight: '600' },
+	banners: { marginTop: 8 },
+	bannerCard: { borderRadius: 12, padding: 12, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 },
+	bannerCardPurple: { borderRadius: 12, padding: 12, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 },
+	bannerCardAI: { borderRadius: 12, padding: 12, flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+	bannerSub: { color: COLORS.utility.white, fontSize: 12 },
+	bannerHeader: { color: COLORS.utility.white, fontSize: 16, fontWeight: '700' },
+	bannerSubWhite: { color: COLORS.utility.white, fontSize: 12 },
+	bannerHeaderWhite: { color: COLORS.utility.white, fontSize: 14, fontWeight: '600' },
+	bannerAction: { color: COLORS.utility.white, fontSize: 13, fontWeight: '600' },
+	bannerActionWhite: { color: COLORS.utility.white, fontSize: 13, fontWeight: '600' },
 	bannerLeft: { flexDirection: 'row', alignItems: 'center' },
 	bannerIconCircle: { width: 40, height: 40, borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.12)', alignItems: 'center', justifyContent: 'center' },
 	bannerIconCirclePurple: { width: 40, height: 40, borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.12)', alignItems: 'center', justifyContent: 'center' },
 	bannerIconCircleAI: { width: 40, height: 40, borderRadius: 10, backgroundColor: 'rgba(255,255,255,0.12)', alignItems: 'center', justifyContent: 'center' },
 
-  sectionCard: { backgroundColor: COLORS.utility.white, borderRadius: 12, padding: 14, marginTop: 12, borderWidth: 1, borderColor: COLORS.gray[200] },
-  sectionHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
-  sectionTitle: { fontSize: 16, fontWeight: '700', color: COLORS.gray[900] },
-  viewDetails: { fontSize: 13, color: COLORS.gray[500] },
-  targetsList: { marginTop: 10 },
+	sectionCard: { backgroundColor: COLORS.utility.white, borderRadius: 12, padding: 14, marginTop: 12, borderWidth: 1, borderColor: COLORS.gray[200] },
+	sectionHeader: { flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' },
+	sectionTitle: { fontSize: 16, fontWeight: '700', color: COLORS.gray[900] },
+	viewDetails: { fontSize: 13, color: COLORS.gray[500] },
+	targetsList: { marginTop: 10 },
 
-  badgeRed: { backgroundColor: COLORS.red[600], borderRadius: 12, paddingHorizontal: 8, paddingVertical: 2, marginLeft: 8, marginTop: -2 },
-  badgeBlue: { backgroundColor: COLORS.blue[500], borderRadius: 12, paddingHorizontal: 8, paddingVertical: 2, marginLeft: 8, marginTop: -2 },
-  badgeText: { color: COLORS.utility.white, fontWeight: '700' },
+	badgeRed: { backgroundColor: COLORS.red[600], borderRadius: 12, paddingHorizontal: 8, paddingVertical: 2, marginLeft: 8, marginTop: -2 },
+	badgeBlue: { backgroundColor: COLORS.blue[500], borderRadius: 12, paddingHorizontal: 8, paddingVertical: 2, marginLeft: 8, marginTop: -2 },
+	badgeText: { color: COLORS.utility.white, fontWeight: '700' },
 
-  quickGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginTop: 12 },
+	quickGrid: { flexDirection: 'row', flexWrap: 'wrap', justifyContent: 'space-between', marginTop: 12 },
 	quickItem: { width: '48%', backgroundColor: COLORS.utility.white, padding: 12, borderRadius: 10, alignItems: 'center', marginTop: 8 },
 	quickText: { fontWeight: '700' },
 	/* Follow-up rows */
