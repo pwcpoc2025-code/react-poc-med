@@ -1,6 +1,7 @@
 import RequestSamplesModal from "@/components/RequestSamplesModal";
 import RestockModal from "@/components/RestockModal";
 import StockDetailsModal from "@/components/StockDetailsModal";
+import COLORS from "@/constants/LupinColors";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { useState } from "react";
@@ -166,7 +167,7 @@ export default function SampleTracking({ visible, onClose, onSubmit }: Props) {
       <StatusBar barStyle="dark-content" backgroundColor="#f8fafc" />
       <View
         style={{
-          backgroundColor: "#0a8b36",
+          backgroundColor: COLORS.brand.lupinGreen,
           paddingHorizontal: 16,
           paddingVertical: 13,
           flexDirection: "row",

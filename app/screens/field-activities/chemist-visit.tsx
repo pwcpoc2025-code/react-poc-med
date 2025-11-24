@@ -12,15 +12,15 @@ import { Feather, FontAwesome6, Ionicons, MaterialIcons } from "@expo/vector-ico
 import { router } from "expo-router";
 import React, { JSX, useState } from "react";
 import {
-  Pressable,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  useWindowDimensions,
+    Pressable,
+    SafeAreaView,
+    ScrollView,
+    StatusBar,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+    useWindowDimensions,
 } from "react-native";
 
 /* ---------- Types ---------- */
@@ -787,7 +787,7 @@ export default function ChemistVisit(): JSX.Element {
       <StatusBar barStyle="dark-content" backgroundColor="#f8fafc" />
       <View
         style={{
-          backgroundColor: "#0a8b36",
+          backgroundColor: COLORS.brand.lupinGreen,
           paddingHorizontal: 16,
           paddingVertical: 13,
           flexDirection: "row",

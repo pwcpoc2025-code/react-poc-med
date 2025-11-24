@@ -1,5 +1,6 @@
 import LeaveDetailsModal, { LeaveDetail } from "@/components/LeaveDetailModal";
 import LeaveModal from "@/components/LeaveModal";
+import COLORS from "@/constants/LupinColors";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { JSX, useMemo, useState } from "react";
@@ -382,7 +383,7 @@ const styles = StyleSheet.create({
   },
 
   appHeader: {
-    backgroundColor: "#188838",
+    backgroundColor: COLORS.brand.lupinGreen,
     paddingHorizontal: 16,
     paddingVertical: 8,
     flexDirection: "row",

@@ -1,3 +1,4 @@
+import COLORS from "@/constants/LupinColors";
 import { Ionicons } from "@expo/vector-icons";
 import { DrawerItem } from "@react-navigation/drawer";
 import { Slot, router } from "expo-router";
@@ -467,7 +468,7 @@ export default function RootLayout() {
         headerShown: false,
       })}
     >
-      <StatusBar barStyle="light-content" backgroundColor={LUPIN_GREEN_LEFT} />
+      <StatusBar barStyle="light-content" backgroundColor={COLORS.brand.lupinGreen} />
       <Slot />
     </Drawer>
   );
@@ -500,7 +501,7 @@ const styles = StyleSheet.create({
 
   /* Drawer brand header (inside drawer) */
   brandHeader: {
-    backgroundColor: "#059669",
+    backgroundColor: COLORS.brand.lupinGreen,
     paddingHorizontal: 16,
     paddingVertical: 12,
     flexDirection: "row",

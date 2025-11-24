@@ -1,4 +1,5 @@
 // ExpenseManagement.tsx
+import COLORS from "@/constants/LupinColors";
 import { Ionicons } from "@expo/vector-icons";
 import { router, useNavigation } from "expo-router";
 import React, { JSX, useMemo, useState } from "react";
@@ -1253,12 +1254,12 @@ export default function ExpenseManagement(): JSX.Element {
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: "#f8fafc" }}>
-      <StatusBar barStyle="light-content" backgroundColor="#0a8b36" />
+      <StatusBar barStyle="light-content" backgroundColor={COLORS.brand.lupinGreen} />
 
       {/* ----- LUPIN CRM HEADER (NO BACK BUTTON) ----- */}
       <View
         style={{
-          backgroundColor: "#0a8b36",
+          backgroundColor: COLORS.brand.lupinGreen,
           paddingHorizontal: 16,
           paddingVertical: 13,
           flexDirection: "row",

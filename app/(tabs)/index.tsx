@@ -5,15 +5,15 @@ import React, { useState } from 'react';
 import ModalHcpProfile from "../../components/ModalHcpProfile";
 
 import {
-  Modal,
-  Platform,
-  Pressable,
-  ScrollView as RNScroll,
-  StatusBar,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+	Modal,
+	Platform,
+	Pressable,
+	ScrollView as RNScroll,
+	StatusBar,
+	StyleSheet,
+	Text,
+	TouchableOpacity,
+	View,
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import AttendanceModal from '../../app/modals/AttendanceModal';
@@ -21,16 +21,16 @@ import ProgressBar from '../../components/ProgressBar';
 import ScrollCards from '../../components/ScrollCards';
 import COLORS from '../../constants/LupinColors';
 import {
-  IconBox,
-  IconButtonCheck,
-  IconCalendar,
-  IconCheckCircle,
-  IconClipboard,
-  IconMapPin,
-  IconPhoneCall,
-  IconRupee,
-  IconSparkles,
-  IconUserCircle,
+	IconBox,
+	IconButtonCheck,
+	IconCalendar,
+	IconCheckCircle,
+	IconClipboard,
+	IconMapPin,
+	IconPhoneCall,
+	IconRupee,
+	IconSparkles,
+	IconUserCircle,
 } from '../../constants/LupinIcons';
 import DailyPlanningScreen from '../screens/modals/DailyPlanningScreen';
 
@@ -46,7 +46,7 @@ const HomeScreen = () => {
   return (
     <View style={styles.screen}>
       
-            <StatusBar barStyle="default" translucent={false} animated backgroundColor={"#00833F"} />
+            <StatusBar barStyle="default" translucent={false} animated backgroundColor={COLORS.brand.lupinGreen} />
       <RNScroll contentContainerStyle={styles.container}>
         {/* Header */}
         <View style={styles.headerRow}>

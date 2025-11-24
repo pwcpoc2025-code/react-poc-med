@@ -5,15 +5,15 @@ import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import React, { JSX, useState } from "react";
 import {
-  Pressable,
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  View,
-  useWindowDimensions,
+    Pressable,
+    SafeAreaView,
+    ScrollView,
+    StatusBar,
+    Text,
+    TextInput,
+    TouchableOpacity,
+    View,
+    useWindowDimensions,
 } from "react-native";
 
 /* ---------------- Types & sample data ---------------- */
@@ -135,7 +135,7 @@ export default function StokistVisit(): JSX.Element {
       <StatusBar barStyle="dark-content" backgroundColor="#f8fafc" />
       <View
         style={{
-          backgroundColor: "#0a8b36",
+          backgroundColor: COLORS.brand.lupinGreen,
           paddingHorizontal: 16,
           paddingVertical: 13,
           flexDirection: "row",
