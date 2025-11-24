@@ -302,29 +302,29 @@ function StockTabUI() {
     expiry: string;
     status: StockStatus;
   }[] = [
-    {
-      name: "Lupin Cardio-X 10mg",
-      batch: "LCX2024-11",
-      qty: 150,
-      expiry: "Dec 2025",
-      status: "Fresh",
-    },
-    {
-      name: "Lupin Antibiotic Plus",
-      batch: "LAP2024-10",
-      qty: 85,
-      expiry: "Oct 2025",
-      status: "Fresh",
-    },
-    {
-      name: "Lupin Diabetes Care",
-      batch: "LDC2024-08",
-      qty: 45,
-      expiry: "Jan 2025",
-      status: "Near Expiry",
-    },
-  ];
-  
+      {
+        name: "Lupin Cardio-X 10mg",
+        batch: "LCX2024-11",
+        qty: 150,
+        expiry: "Dec 2025",
+        status: "Fresh",
+      },
+      {
+        name: "Lupin Antibiotic Plus",
+        batch: "LAP2024-10",
+        qty: 85,
+        expiry: "Oct 2025",
+        status: "Fresh",
+      },
+      {
+        name: "Lupin Diabetes Care",
+        batch: "LDC2024-08",
+        qty: 45,
+        expiry: "Jan 2025",
+        status: "Near Expiry",
+      },
+    ];
+
 
   const badge = {
     Fresh: {
@@ -456,149 +456,149 @@ function StockTabUI() {
                   {item.expiry}
                 </Text>
               </View>
-              
+
             </View>
           </View>
         );
       })}
       {/* === Lupin Pain Relief (Expired) === */}
-<View style={{ backgroundColor: "#fff", borderRadius: 10, padding: 16, borderWidth: 1, borderColor: "#eef2f7", marginBottom: 16 }}>
+      <View style={{ backgroundColor: "#fff", borderRadius: 10, padding: 16, borderWidth: 1, borderColor: "#eef2f7", marginBottom: 16 }}>
 
-{/* Name + Status */}
-<View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-  <View>
-    <Text style={{ fontSize: 16, fontWeight: "700", color: "#0f172a" }}>Lupin Pain Relief</Text>
-    <Text style={{ color: "#6b7280", fontSize: 13, marginTop: 4 }}>Batch: LPR2024-06</Text>
-  </View>
+        {/* Name + Status */}
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <View>
+            <Text style={{ fontSize: 16, fontWeight: "700", color: "#0f172a" }}>Lupin Pain Relief</Text>
+            <Text style={{ color: "#6b7280", fontSize: 13, marginTop: 4 }}>Batch: LPR2024-06</Text>
+          </View>
 
-  {/* Red badge */}
-  <View style={{ backgroundColor: "#fff1f2", borderRadius: 999, borderWidth: 1, borderColor: "#fee2e2", paddingHorizontal: 10, paddingVertical: 4 }}>
-    <Text style={{ color: "#b91c1c", fontWeight: "600", fontSize: 12 }}>Expired</Text>
-  </View>
-</View>
+          {/* Red badge */}
+          <View style={{ backgroundColor: "#fff1f2", borderRadius: 999, borderWidth: 1, borderColor: "#fee2e2", paddingHorizontal: 10, paddingVertical: 4 }}>
+            <Text style={{ color: "#b91c1c", fontWeight: "600", fontSize: 12 }}>Expired</Text>
+          </View>
+        </View>
 
-{/* Quantity + Expiry */}
-{/* Quantity + Expiry row */}
-<View
-  style={{
-    flexDirection: "row",
-    justifyContent: "space-between",
-    gap: 12,
-    marginTop: 16,
-  }}
->
-  {/* Quantity box */}
-  <View
-    style={{
-      flex: 1,
-      backgroundColor: "#F9FAFB",
-      borderRadius: 8,
-      borderWidth: 1,
-      borderColor: "#F3F4F6",
-      padding: 12,
-    }}
-  >
-    <Text style={{ fontSize: 12, color: "#6B7280" }}>Quantity</Text>
-    <Text style={{ marginTop: 4, fontWeight: "700" }}>20 units</Text>
-  </View>
+        {/* Quantity + Expiry */}
+        {/* Quantity + Expiry row */}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            gap: 12,
+            marginTop: 16,
+          }}
+        >
+          {/* Quantity box */}
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "#F9FAFB",
+              borderRadius: 8,
+              borderWidth: 1,
+              borderColor: "#F3F4F6",
+              padding: 12,
+            }}
+          >
+            <Text style={{ fontSize: 12, color: "#6B7280" }}>Quantity</Text>
+            <Text style={{ marginTop: 4, fontWeight: "700" }}>20 units</Text>
+          </View>
 
-  {/* Expiry box */}
-  <View
-    style={{
-      flex: 1,
-      backgroundColor: "#F9FAFB",
-      borderRadius: 8,
-      borderWidth: 1,
-      borderColor: "#F3F4F6",
-      padding: 12,
-    }}
-  >
-    <Text style={{ fontSize: 12, color: "#6B7280" }}>Expiry</Text>
-    <Text style={{ marginTop: 4, fontWeight: "700" }}>Nov 2024</Text>
-  </View>
-</View>
-
-
-{/* Warning Bar */}
-<View style={{
-  marginTop: 16,
-  backgroundColor: "#fef2f2",
-  borderRadius: 6,
-  borderWidth: 1,
-  borderColor: "#fee2e2",
-  padding: 10,
-  flexDirection: "row",
-  alignItems: "center",
-}}>
-  <MaterialIcons name="warning" size={18} color="#b91c1c" />
-  <Text style={{ color: "#b91c1c", marginLeft: 6, fontSize: 13 }}>
-    Expired – Arrange for return/replacement
-  </Text>
-</View>
-</View>
+          {/* Expiry box */}
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "#F9FAFB",
+              borderRadius: 8,
+              borderWidth: 1,
+              borderColor: "#F3F4F6",
+              padding: 12,
+            }}
+          >
+            <Text style={{ fontSize: 12, color: "#6B7280" }}>Expiry</Text>
+            <Text style={{ marginTop: 4, fontWeight: "700" }}>Nov 2024</Text>
+          </View>
+        </View>
 
 
-{/* === Lupin Respiratory Aid (Fresh) === */}
-<View style={{ backgroundColor: "#fff", borderRadius: 10, padding: 16, borderWidth: 1, borderColor: "#eef2f7", marginBottom: 16 }}>
+        {/* Warning Bar */}
+        <View style={{
+          marginTop: 16,
+          backgroundColor: "#fef2f2",
+          borderRadius: 6,
+          borderWidth: 1,
+          borderColor: "#fee2e2",
+          padding: 10,
+          flexDirection: "row",
+          alignItems: "center",
+        }}>
+          <MaterialIcons name="warning" size={18} color="#b91c1c" />
+          <Text style={{ color: "#b91c1c", marginLeft: 6, fontSize: 13 }}>
+            Expired – Arrange for return/replacement
+          </Text>
+        </View>
+      </View>
 
-{/* Name + Status */}
-<View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-  <View>
-    <Text style={{ fontSize: 16, fontWeight: "700", color: "#0f172a" }}>Lupin Respiratory Aid</Text>
-    <Text style={{ color: "#6b7280", fontSize: 13, marginTop: 4 }}>Batch: LRA2024-12</Text>
-  </View>
 
-  {/* Green badge */}
-  <View style={{ backgroundColor: "#ecfdf5", borderRadius: 999, borderWidth: 1, borderColor: "#d1fae5", paddingHorizontal: 10, paddingVertical: 4 }}>
-    <Text style={{ color: "#059669", fontWeight: "600", fontSize: 12 }}>Fresh</Text>
-  </View>
-</View>
+      {/* === Lupin Respiratory Aid (Fresh) === */}
+      <View style={{ backgroundColor: "#fff", borderRadius: 10, padding: 16, borderWidth: 1, borderColor: "#eef2f7", marginBottom: 16 }}>
 
-{/* Quantity + Expiry */}
-{/* Quantity + Expiry row */}
-<View
-  style={{
-    flexDirection: "row",
-    justifyContent: "space-between",
-    gap: 12,
-    marginTop: 16,
-  }}
->
-  {/* Quantity box */}
-  <View
-    style={{
-      flex: 1,
-      backgroundColor: "#F9FAFB",
-      borderRadius: 8,
-      borderWidth: 1,
-      borderColor: "#F3F4F6",
-      padding: 12,
-    }}
-  >
-    <Text style={{ fontSize: 12, color: "#6B7280" }}>Quantity</Text>
-    <Text style={{ marginTop: 4, fontWeight: "700" }}>200 units</Text>
-  </View>
+        {/* Name + Status */}
+        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+          <View>
+            <Text style={{ fontSize: 16, fontWeight: "700", color: "#0f172a" }}>Lupin Respiratory Aid</Text>
+            <Text style={{ color: "#6b7280", fontSize: 13, marginTop: 4 }}>Batch: LRA2024-12</Text>
+          </View>
 
-  {/* Expiry box */}
-  <View
-    style={{
-      flex: 1,
-      backgroundColor: "#F9FAFB",
-      borderRadius: 8,
-      borderWidth: 1,
-      borderColor: "#F3F4F6",
-      padding: 12,
-    }}
-  >
-    <Text style={{ fontSize: 12, color: "#6B7280" }}>Expiry</Text>
-    <Text style={{ marginTop: 4, fontWeight: "700" }}>Feb 2026</Text>
-  </View>
-</View>
+          {/* Green badge */}
+          <View style={{ backgroundColor: "#ecfdf5", borderRadius: 999, borderWidth: 1, borderColor: "#d1fae5", paddingHorizontal: 10, paddingVertical: 4 }}>
+            <Text style={{ color: "#059669", fontWeight: "600", fontSize: 12 }}>Fresh</Text>
+          </View>
+        </View>
 
-</View>
+        {/* Quantity + Expiry */}
+        {/* Quantity + Expiry row */}
+        <View
+          style={{
+            flexDirection: "row",
+            justifyContent: "space-between",
+            gap: 12,
+            marginTop: 16,
+          }}
+        >
+          {/* Quantity box */}
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "#F9FAFB",
+              borderRadius: 8,
+              borderWidth: 1,
+              borderColor: "#F3F4F6",
+              padding: 12,
+            }}
+          >
+            <Text style={{ fontSize: 12, color: "#6B7280" }}>Quantity</Text>
+            <Text style={{ marginTop: 4, fontWeight: "700" }}>200 units</Text>
+          </View>
+
+          {/* Expiry box */}
+          <View
+            style={{
+              flex: 1,
+              backgroundColor: "#F9FAFB",
+              borderRadius: 8,
+              borderWidth: 1,
+              borderColor: "#F3F4F6",
+              padding: 12,
+            }}
+          >
+            <Text style={{ fontSize: 12, color: "#6B7280" }}>Expiry</Text>
+            <Text style={{ marginTop: 4, fontWeight: "700" }}>Feb 2026</Text>
+          </View>
+        </View>
+
+      </View>
 
     </View>
-    
+
   );
 }
 
@@ -787,16 +787,16 @@ export default function ChemistVisit(): JSX.Element {
     <SafeAreaView style={{ flex: 1, backgroundColor: "#f8fafc" }}>
       <StatusBar barStyle="dark-content" backgroundColor="#f8fafc" />
       <Stack.Screen
-  options={{
-    title: "Chemist Visit",
-    headerStyle: { backgroundColor: COLORS.brand.lupinGreen },
-    headerTintColor: "#fff",
-    headerTitleStyle: { fontWeight: "bold" },
-  }}
-/>
+        options={{
+          title: "Chemist Visit",
+          headerStyle: { backgroundColor: COLORS.brand.lupinGreen },
+          headerTintColor: "#fff",
+          headerTitleStyle: { fontWeight: "bold" },
+        }}
+      />
 
       <ScrollView contentContainerStyle={{ paddingVertical: 16, paddingBottom: 130, }}>
-        <View style={{ width: container, alignSelf: "center", paddingHorizontal: 8 }}>
+        <View style={{ width: container, alignSelf: "center", paddingHorizontal: 0 }}>
           {/* Header */}
           <View
             style={{
@@ -890,87 +890,87 @@ export default function ChemistVisit(): JSX.Element {
 
           {/* Tabs */}
           <View
-  style={{
-    flexDirection: "row",
-    backgroundColor: "#f3f4f6",
-    borderRadius: 999,
-    padding: 6,
-    marginBottom: 12,
-  }}
->
-  {[
-    {
-      id: "chemists",
-      label: "Chemists",
-      icon: (
-        <MaterialIcons
-          name="link"
-          size={16}
-          color={activeTab === "chemists" ? "#0f172a" : "#6b7280"}
-        />
-      ),
-    },
-    {
-      id: "rx",
-      label: "Rx Trends",
-      icon: (
-        <Feather
-          name="trending-up"
-          size={16}
-          color={activeTab === "rx" ? "#7e22ce" : "#a78bfa"}
-        />
-      ),
-    },
-    {
-      id: "stock",
-      label: "Stock",
-      icon: (
-        <FontAwesome6
-          name="cube"
-          size={15}
-          color={activeTab === "stock" ? "#0f172a" : "#6b7280"}
-        />
-      ),
-    },
-    {
-      id: "schemes",
-      label: "Schemes",
-      icon: (
-        <MaterialIcons
-          name="card-giftcard"
-          size={16}
-          color={activeTab === "schemes" ? "#0f172a" : "#6b7280"}
-        />
-      ),
-    },
-  ].map((t) => (
-    <Pressable
-      key={t.id}
-      onPress={() => setActiveTab(t.id as any)}
-      style={{
-        flex: 1,
-        paddingVertical: 10,
-        alignItems: "center",
-        borderRadius: 999,
-        flexDirection: "row",
-        justifyContent: "center",
-        gap: 6,
-        backgroundColor: activeTab === t.id ? "#ffffff" : "transparent",
-      }}
-    >
-      {t.icon}
+            style={{
+              flexDirection: "row",
+              backgroundColor: "#f3f4f6",
+              borderRadius: 999,
+              padding: 6,
+              marginBottom: 12,
+            }}
+          >
+            {[
+              {
+                id: "chemists",
+                label: "Chemists",
+                icon: (
+                  <MaterialIcons
+                    name="link"
+                    size={16}
+                    color={activeTab === "chemists" ? "#0f172a" : "#6b7280"}
+                  />
+                ),
+              },
+              {
+                id: "rx",
+                label: "Rx Trends",
+                icon: (
+                  <Feather
+                    name="trending-up"
+                    size={16}
+                    color={activeTab === "rx" ? "#7e22ce" : "#a78bfa"}
+                  />
+                ),
+              },
+              {
+                id: "stock",
+                label: "Stock",
+                icon: (
+                  <FontAwesome6
+                    name="cube"
+                    size={15}
+                    color={activeTab === "stock" ? "#0f172a" : "#6b7280"}
+                  />
+                ),
+              },
+              {
+                id: "schemes",
+                label: "Schemes",
+                icon: (
+                  <MaterialIcons
+                    name="card-giftcard"
+                    size={16}
+                    color={activeTab === "schemes" ? "#0f172a" : "#6b7280"}
+                  />
+                ),
+              },
+            ].map((t) => (
+              <Pressable
+                key={t.id}
+                onPress={() => setActiveTab(t.id as any)}
+                style={{
+                  flex: 1,
+                  paddingVertical: 10,
+                  alignItems: "center",
+                  borderRadius: 999,
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  gap: 6,
+                  backgroundColor: activeTab === t.id ? "#ffffff" : "transparent",
+                }}
+              >
+                {t.icon}
 
-      <Text
-        style={{
-          fontWeight: activeTab === t.id ? "700" : "500",
-          color: activeTab === t.id ? "#0f172a" : "#4b5563",
-        }}
-      >
-        {t.label}
-      </Text>
-    </Pressable>
-  ))}
-</View>
+                <Text
+                  style={{
+                    fontWeight: activeTab === t.id ? "700" : "500",
+                    color: activeTab === t.id ? "#0f172a" : "#4b5563",
+                  }}
+                >
+                  {t.label}
+                </Text>
+              </Pressable>
+            ))}
+          </View>
 
           {/* TAB CONTENT */}
           {activeTab === "chemists" && (
@@ -1107,7 +1107,7 @@ export default function ChemistVisit(): JSX.Element {
                         setVisitVisible(true);
                       }}
                       style={{
-                        backgroundColor: "#0ea5a3",
+                        backgroundColor: COLORS.brand.lupinGreen,
                         paddingVertical: 14,
                         borderRadius: 8,
                         alignItems: "center",
