@@ -235,6 +235,7 @@ setHasShownReportOnce(false);
           <View
             style={{
               width: containerWidth,
+              flex: 1, 
               maxHeight: Math.min(height - 100, 960),
               backgroundColor: "#fff",
               borderRadius: 12,
