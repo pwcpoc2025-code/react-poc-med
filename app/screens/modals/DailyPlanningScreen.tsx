@@ -34,7 +34,7 @@ const DailyPlanningScreen: React.FC<any> = ({setWelcomeModal}) => {
   const cardWidth = Math.min(SCREEN_WIDTH - 24, CARD_MAX_WIDTH);
 
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView edges={[]} style={styles.safeArea}>
       <View style={styles.backdrop}>
         <View style={[styles.modalCard, { width: cardWidth }]}>
           {/* Header */}
@@ -312,7 +312,7 @@ const AIItem: React.FC<AIItemProps> = ({ leadingIcon, title, subtitle }) => (
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: '#00000033',
+    backgroundColor: 'rgba(0,0,0,0.75)',
   },
   backdrop: {
     flex: 1,

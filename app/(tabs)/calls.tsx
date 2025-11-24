@@ -78,7 +78,7 @@ export default function CallsScreen() {
   }, [activeTab]);
 
   return (
-    <SafeAreaView style={styles.safe}>
+    <SafeAreaView edges={['bottom']} style={styles.safe}>
       <StatusBar barStyle="dark-content" translucent={false} animated backgroundColor={COLORS.brand.lupinGreen} />
       <View style={styles.container}>
         {/* Header */}
@@ -86,16 +86,16 @@ export default function CallsScreen() {
           <Text style={styles.headerTitle}>Call Reporting</Text>
 
           <Pressable
-  style={styles.newCallButton}
-  onPress={() => setShowNewCall(true)}
->
-  <Ionicons name="add" size={18} color="#ffffff" />
-  <Text style={styles.newCallText}>New Call</Text>
-</Pressable>
- <ReportNewCallModal
-        visible={showNewCall}
-        onClose={() => setShowNewCall(false)}
-      />
+            style={styles.newCallButton}
+            onPress={() => setShowNewCall(true)}
+          >
+            <Ionicons name="add" size={18} color="#ffffff" />
+            <Text style={styles.newCallText}>New Call</Text>
+          </Pressable>
+          <ReportNewCallModal
+            visible={showNewCall}
+            onClose={() => setShowNewCall(false)}
+          />
         </View>
 
         <ScrollView
@@ -421,21 +421,22 @@ const styles = StyleSheet.create({
   safe: {
     flex: 1,
     backgroundColor: "#f3f4f6",
+    paddingBottom: 40
   },
   container: {
     flex: 1,
   },
   headerRow: {
     paddingHorizontal: 16,
-    paddingTop: 8,
-    paddingBottom: 4,
+    paddingVertical: 16,
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
+     backgroundColor: COLORS.gray[200],
   },
   headerTitle: {
-    fontSize: 22,
-    fontWeight: "700",
+    fontSize: 16,
+    fontWeight: "500",
     color: "#111827",
   },
   newCallButton: {

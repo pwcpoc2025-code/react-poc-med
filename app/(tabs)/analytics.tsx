@@ -27,183 +27,183 @@ export default function AnalyticsScreen() {
   const [activeTab, setActiveTab] = useState<TabKey>("leaderboard");
 
   return (
-    <View style={{flex:1, marginBottom: 40, backgroundColor:COLORS.brand.lupinGreen}}>
-    <SafeAreaView style={styles.screen}>
-      {/* GREEN PAGE HEADER */}
-      <View
-        style={{
-          width: "100%",
-          paddingHorizontal: 16,
-          paddingVertical: 14,
-          flexDirection: "row",
-          alignItems: "center",
-          justifyContent: "space-between",
-          backgroundColor: "transparent",
-        }}
-      >
-        {/* LEFT */}
+    <View style={{ flex: 1, marginBottom: 40, backgroundColor: COLORS.brand.lupinGreen }}>
+      <SafeAreaView edges={[]} style={styles.screen}>
+        {/* GREEN PAGE HEADER */}
         <View
           style={{
+            width: "100%",
+            paddingHorizontal: 16,
+            paddingVertical: 16,
             flexDirection: "row",
             alignItems: "center",
-            gap: 10,
+            justifyContent: "space-between",
+            backgroundColor: COLORS.gray[200],
           }}
         >
-
-
-          <Text
+          {/* LEFT */}
+          <View
             style={{
-              fontSize: 22,
-              fontWeight: "400",
-              color: "#111827",
+              flexDirection: "row",
+              alignItems: "center",
+              gap: 0,
             }}
           >
-            Analytics &amp; Reports
-          </Text>
+
+
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: "500",
+                color: "#111827",
+              }}
+            >
+              Analytics &amp; Reports
+            </Text>
+          </View>
+
+          {/* RIGHT BTN */}
+          <TouchableOpacity
+            onPress={() => console.log("Change range")}
+            style={{
+              paddingHorizontal: 12,
+              paddingVertical: 6,
+              borderRadius: 999,
+              borderWidth: 1,
+              borderColor: "#d1d5db",
+              backgroundColor: "#ffffff",
+            }}
+          >
+            <Text
+              style={{
+                fontSize: 13,
+                fontWeight: "600",
+                color: "#111827",
+              }}
+            >
+              This Month ⌵
+            </Text>
+          </TouchableOpacity>
         </View>
 
-        {/* RIGHT BTN */}
-        <TouchableOpacity
-          onPress={() => console.log("Change range")}
-          style={{
-            paddingHorizontal: 12,
-            paddingVertical: 6,
-            borderRadius: 999,
-            borderWidth: 1,
-            borderColor: "#d1d5db",
-            backgroundColor: "#ffffff",
-          }}
+        {/* BODY */}
+        <ScrollView
+          style={styles.body}
+          contentContainerStyle={{ paddingBottom: 40 }}
+          showsVerticalScrollIndicator={false}
         >
-          <Text
-            style={{
-              fontSize: 13,
-              fontWeight: "600",
-              color: "#111827",
-            }}
+          {/* AI FORECAST */}
+          <LinearGradient
+            colors={["#7C3AED", "#2563EB"]}
+            start={{ x: 0, y: 0 }}
+            end={{ x: 1, y: 1 }}
+            style={styles.aiBanner}
           >
-            This Month ⌵
-          </Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* BODY */}
-      <ScrollView
-        style={styles.body}
-        contentContainerStyle={{ paddingBottom: 40 }}
-        showsVerticalScrollIndicator={false}
-      >
-        {/* AI FORECAST */}
-        <LinearGradient
-          colors={["#7C3AED", "#2563EB"]}
-          start={{ x: 0, y: 0 }}
-          end={{ x: 1, y: 1 }}
-          style={styles.aiBanner}
-        >
-          <View style={styles.aiBannerTopRow}>
-            <View style={styles.aiTitleRow}>
-              <View style={styles.aiIconCircle}>
-                <IconSparkles size={18} color={COLORS.utility.white} />
+            <View style={styles.aiBannerTopRow}>
+              <View style={styles.aiTitleRow}>
+                <View style={styles.aiIconCircle}>
+                  <IconSparkles size={18} color={COLORS.utility.white} />
+                </View>
+                <Text style={styles.aiTitle}>AI Forecast</Text>
               </View>
-              <Text style={styles.aiTitle}>AI Forecast</Text>
+              <View style={styles.aiPill}>
+                <Text style={styles.aiPillText}>Predictive</Text>
+              </View>
             </View>
-            <View style={styles.aiPill}>
-              <Text style={styles.aiPillText}>Predictive</Text>
+
+            <Text style={styles.aiMainText}>
+              Based on current pace, you&apos;ll achieve 96% of monthly targets.
+              3 Gold HCPs need immediate attention to reach 100%.
+            </Text>
+
+            <View style={styles.aiChipsRow}>
+              <View style={styles.aiChip}>
+                <IconTinyTrendUp size={14} color={COLORS.utility.white} />
+                <Text style={styles.aiChipText}>+8% growth</Text>
+              </View>
+              <View style={styles.aiChip}>
+                <Text style={styles.aiChipText}>96% confidence</Text>
+              </View>
+            </View>
+          </LinearGradient>
+
+          {/* MONTH STRIP */}
+          <View style={styles.monthStrip}>
+            <View>
+              <Text style={styles.monthTitle}>November 2025</Text>
+              <Text style={styles.monthSubtitle}>Nov 1 - Nov 30</Text>
+            </View>
+            <View style={styles.monthBadge}>
+              <IconTinyTrendUp size={14} color={COLORS.emerald[600]} />
+              <Text style={styles.monthBadgeText}>+12%</Text>
             </View>
           </View>
 
-          <Text style={styles.aiMainText}>
-            Based on current pace, you&apos;ll achieve 96% of monthly targets.
-            3 Gold HCPs need immediate attention to reach 100%.
-          </Text>
+          {/* KPI CARDS */}
+          <View style={styles.kpiGrid}>
+            <MetricCard
+              icon={<IconPhoneCall size={18} color={COLORS.green[600]} />}
+              iconBg={COLORS.green[50]}
+              title="Call Performance"
+              value="142/160"
+              bottomLabel="89% achieved"
+              delta="+12%"
+            />
+            <MetricCard
+              icon={<IconMapPin size={18} color={COLORS.blue[600]} />}
+              iconBg={COLORS.blue[50]}
+              title="Territory Coverage"
+              value="87%"
+              bottomLabel="87% achieved"
+              delta="+5%"
+            />
+            <MetricCard
+              icon={<IconBox size={18} color={COLORS.orange[600]} />}
+              iconBg={COLORS.orange[50]}
+              title="Sample Distribution"
+              value="320/400"
+              bottomLabel="80% achieved"
+              delta="+8%"
+            />
+            <MetricCard
+              icon={<IconRupee size={18} color={COLORS.red[600]} />}
+              iconBg={COLORS.red[50]}
+              title="Expense Compliance"
+              value="₹18.4k/₹25k"
+              bottomLabel="74% achieved"
+              delta="On track"
+            />
+          </View>
 
-          <View style={styles.aiChipsRow}>
-            <View style={styles.aiChip}>
-              <IconTinyTrendUp size={14} color={COLORS.utility.white} />
-              <Text style={styles.aiChipText}>+8% growth</Text>
+          {/* WEEKLY TREND */}
+          <View style={styles.sectionCard}>
+            <Text style={styles.sectionTitle}>Weekly Performance Trend</Text>
+            <View style={{ marginTop: 8 }}>
+              <WeeklyBar label="Week 1" percent={91} calls="32/35 calls" />
+              <WeeklyBar label="Week 2" percent={109} calls="38/35 calls" />
+              <WeeklyBar label="Week 3" percent={100} calls="35/35 calls" />
+              <WeeklyBar label="Week 4" percent={106} calls="37/35 calls" />
             </View>
-            <View style={styles.aiChip}>
-              <Text style={styles.aiChipText}>96% confidence</Text>
-            </View>
           </View>
-        </LinearGradient>
 
-        {/* MONTH STRIP */}
-        <View style={styles.monthStrip}>
-          <View>
-            <Text style={styles.monthTitle}>November 2025</Text>
-            <Text style={styles.monthSubtitle}>Nov 1 - Nov 30</Text>
+          {/* TABS */}
+          <View style={styles.tabsContainer}>
+            <TabSwitcher activeTab={activeTab} onChange={setActiveTab} />
+
+            {activeTab === "leaderboard" && <LeaderboardTab />}
+            {activeTab === "products" && <ProductsTab />}
+            {activeTab === "territory" && <TerritoryTab />}
           </View>
-          <View style={styles.monthBadge}>
-            <IconTinyTrendUp size={14} color={COLORS.emerald[600]} />
-            <Text style={styles.monthBadgeText}>+12%</Text>
-          </View>
-        </View>
-
-        {/* KPI CARDS */}
-        <View style={styles.kpiGrid}>
-          <MetricCard
-            icon={<IconPhoneCall size={18} color={COLORS.green[600]} />}
-            iconBg={COLORS.green[50]}
-            title="Call Performance"
-            value="142/160"
-            bottomLabel="89% achieved"
-            delta="+12%"
-          />
-          <MetricCard
-            icon={<IconMapPin size={18} color={COLORS.blue[600]} />}
-            iconBg={COLORS.blue[50]}
-            title="Territory Coverage"
-            value="87%"
-            bottomLabel="87% achieved"
-            delta="+5%"
-          />
-          <MetricCard
-            icon={<IconBox size={18} color={COLORS.orange[600]} />}
-            iconBg={COLORS.orange[50]}
-            title="Sample Distribution"
-            value="320/400"
-            bottomLabel="80% achieved"
-            delta="+8%"
-          />
-          <MetricCard
-            icon={<IconRupee size={18} color={COLORS.red[600]} />}
-            iconBg={COLORS.red[50]}
-            title="Expense Compliance"
-            value="₹18.4k/₹25k"
-            bottomLabel="74% achieved"
-            delta="On track"
-          />
-        </View>
-
-        {/* WEEKLY TREND */}
-        <View style={styles.sectionCard}>
-          <Text style={styles.sectionTitle}>Weekly Performance Trend</Text>
-          <View style={{ marginTop: 8 }}>
-            <WeeklyBar label="Week 1" percent={91} calls="32/35 calls" />
-            <WeeklyBar label="Week 2" percent={109} calls="38/35 calls" />
-            <WeeklyBar label="Week 3" percent={100} calls="35/35 calls" />
-            <WeeklyBar label="Week 4" percent={106} calls="37/35 calls" />
-          </View>
-        </View>
-
-        {/* TABS */}
-        <View style={styles.tabsContainer}>
-          <TabSwitcher activeTab={activeTab} onChange={setActiveTab} />
-
-          {activeTab === "leaderboard" && <LeaderboardTab />}
-          {activeTab === "products" && <ProductsTab />}
-          {activeTab === "territory" && <TerritoryTab />}
-        </View>
 
 
 
-        {/* Recent Achievements (kept separate from tabs) */}
-        <RecentAchievements />
+          {/* Recent Achievements (kept separate from tabs) */}
+          <RecentAchievements />
 
-        {/* Monthly Goals Progress (last section) */}
-        <MonthlyGoals />
-      </ScrollView>
-    </SafeAreaView>
+          {/* Monthly Goals Progress (last section) */}
+          <MonthlyGoals />
+        </ScrollView>
+      </SafeAreaView>
     </View>
   );
 };
@@ -870,7 +870,7 @@ const styles = StyleSheet.create({
   },
   tabPillsBackground: {
     flexDirection: "row",
-    backgroundColor: COLORS.gray[100],
+    backgroundColor: COLORS.gray[200],
     borderRadius: 999,
     padding: 4,
     marginBottom: 10,

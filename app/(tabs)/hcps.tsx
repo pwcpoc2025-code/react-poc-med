@@ -39,7 +39,7 @@ const PageHeader: React.FC<PageHeaderProps> = ({ title, onBack, onAdd }) => {
       <View style={styles.headerLeft}>
         {onBack && (
           <TouchableOpacity onPress={onBack} style={styles.backBtn}>
-            <Ionicons name="chevron-back" onPress={() =>  router.replace({ pathname: '/(tabs)', params: { openDrawer: '1' } } as any) } size={20} color={COLORS.gray[800]} />
+            <Ionicons name="chevron-back" onPress={() => router.replace({ pathname: '/(tabs)', params: { openDrawer: '1' } } as any)} size={20} color={COLORS.gray[800]} />
           </TouchableOpacity>
         )}
         <Text style={styles.headerTitle}>{title}</Text>
@@ -73,7 +73,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
 }) => {
   return (
     <Modal visible={visible} animationType="slide">
-      <SafeAreaView style={styles.filterSafeArea}>
+      <SafeAreaView style={styles.filterSafeArea} >
         <View style={styles.filterHeader}>
           <View>
             <Text style={styles.filterTitle}>Filter HCPs</Text>
@@ -132,8 +132,8 @@ const DoctorCard: React.FC<{ doctor: Doctor }> = ({ doctor }) => {
     doctor.tier === "Gold"
       ? "#FBBF24"
       : doctor.tier === "Silver"
-      ? "#CBD5F5"
-      : "#F97316";
+        ? "#CBD5F5"
+        : "#F97316";
 
   return (
     <View style={styles.docCard}>
@@ -245,7 +245,7 @@ const HcpsScreen: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
-    <SafeAreaView style={styles.screen}>
+    <SafeAreaView edges={['bottom']} style={styles.screen}>
       {/* Page Header */}
       <PageHeader
         title="HCP Management"
@@ -339,14 +339,14 @@ const HcpsScreen: React.FC = () => {
         </ScrollView>
 
         {/* Floating Lupin AI FAB */}
-        <TouchableOpacity
-                style={styles.stickyL}
-                onPress={() => {
-                  router.push('/screens/ai-assistant')
-                }}
-              >
-                <Text style={styles.stickyLText}>L</Text>
-              </TouchableOpacity>
+        {/* <TouchableOpacity
+          style={styles.stickyL}
+          onPress={() => {
+            router.push('/screens/ai-assistant')
+          }}
+        >
+          <Text style={styles.stickyLText}>L</Text>
+        </TouchableOpacity> */}
       </View>
 
       {/* Sidebar drawer for filters */}
@@ -371,42 +371,41 @@ const styles = StyleSheet.create({
     backgroundColor: COLORS.gray[100],
   },
   stickyL: {
-      position: 'absolute',
-      right: 16,
-      bottom: 84,
-      width: 52,
-      height: 52,
-      borderRadius: 26,
-      backgroundColor: COLORS.ai?.purple500 ?? COLORS.blue[600],
-      alignItems: 'center',
-      justifyContent: 'center',
-      ...Platform.select({
-        ios: {
-          shadowColor: '#000',
-          shadowOffset: { width: 0, height: 4 },
-          shadowOpacity: 0.18,
-          shadowRadius: 8,
-        },
-        android: {
-          elevation: 6,
-        },
-      }),
-    },
-    stickyLText: {
-      color: COLORS.utility.white,
-      fontWeight: '800',
-      fontSize: 18,
-    },
+    position: 'absolute',
+    right: 16,
+    bottom: 84,
+    width: 52,
+    height: 52,
+    borderRadius: 26,
+    backgroundColor: COLORS.ai?.purple500 ?? COLORS.blue[600],
+    alignItems: 'center',
+    justifyContent: 'center',
+    ...Platform.select({
+      ios: {
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.18,
+        shadowRadius: 8,
+      },
+      android: {
+        elevation: 6,
+      },
+    }),
+  },
+  stickyLText: {
+    color: COLORS.utility.white,
+    fontWeight: '800',
+    fontSize: 18,
+  },
 
   header: {
-    paddingTop: 8,
-    paddingBottom: 8,
     paddingHorizontal: 16,
-    backgroundColor: "transparent",
+    paddingVertical: 16,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
     elevation: 0,
+    backgroundColor: COLORS.gray[200],
   },
   headerLeft: {
     flexDirection: "row",
@@ -418,37 +417,37 @@ const styles = StyleSheet.create({
     marginRight: 6,
   },
   headerTitle: {
-    color: COLORS.gray[900],
-    fontSize: 22,
-    fontWeight: "400",
+    fontSize: 16,
+    fontWeight: "500",
+    color: "#111827",
   },
   addBtn: {
-  flexDirection: "row",
-  alignItems: "center",
-  justifyContent: "center",
-  paddingHorizontal: 18,
-  paddingVertical: 6,
-  borderRadius: 12,          // full pill
-  backgroundColor: "#020617", // deep almost-black
-},
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    paddingHorizontal: 18,
+    paddingVertical: 6,
+    borderRadius: 12,          // full pill
+    backgroundColor: "#020617", // deep almost-black
+  },
 
-addPlus: {
-  color: "#ffffff",
-  fontSize: 14,
-  fontWeight: "600",
-  marginRight: 6,
-},
+  addPlus: {
+    color: "#ffffff",
+    fontSize: 14,
+    fontWeight: "600",
+    marginRight: 6,
+  },
 
-addText: {
-  color: "#ffffff",
-  fontSize: 13,
-  fontWeight: "700",
-},
+  addText: {
+    color: "#ffffff",
+    fontSize: 13,
+    fontWeight: "700",
+  },
 
 
   body: {
     flex: 1,
-    paddingTop: 10,
+    paddingTop: 0,
   },
 
   searchRow: {
@@ -456,11 +455,13 @@ addText: {
     alignItems: "center",
     paddingHorizontal: 16,
     paddingTop: 4,
+    paddingBottom: 10,
     gap: 8,
+    backgroundColor: COLORS.gray[200],
   },
   searchContainer: {
     flex: 1,
-    backgroundColor: "#f3f4f6",
+    backgroundColor: COLORS.gray[50],
     borderRadius: 999,
     flexDirection: "row",
     alignItems: "center",
@@ -490,7 +491,7 @@ addText: {
 
   scrollContent: {
     paddingBottom: 80,
-    paddingTop: 10,
+    paddingTop: 20,
     paddingHorizontal: 12,
   },
 
