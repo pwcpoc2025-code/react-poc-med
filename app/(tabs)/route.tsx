@@ -8,6 +8,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import MapView, { UrlTile } from 'react-native-maps';
 import { SafeAreaView } from "react-native-safe-area-context";
 
 const COLORS = {
@@ -210,10 +211,23 @@ export default function RouteScreen() {
             </Text>
           </View>
 
-          {/* MAP PLACEHOLDER */}
-          <View style={styles.mapPlaceholder}>
-            <Ionicons name="map-outline" size={24} color={COLORS.textLight} />
-            <Text style={styles.mapText}>Interactive map appears here</Text>
+          {/* OpenStreetMap via react-native-maps UrlTile */}
+          <View style={{ marginTop: 14, marginHorizontal: 16, borderRadius: 16, overflow: 'hidden' }}>
+            <MapView
+              style={styles.map}
+              initialRegion={{
+                latitude: 19.0176,
+                longitude: 72.8562,
+                latitudeDelta: 0.05,
+                longitudeDelta: 0.05,
+              }}
+            >
+              <UrlTile
+                urlTemplate="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                maximumZ={19}
+                flipY={false}
+              />
+            </MapView>
           </View>
 
           {/* VISIT LIST */}
@@ -873,6 +887,12 @@ const styles = StyleSheet.create({
     fontSize: 11,
     color: COLORS.textLight,
     marginTop: 4,
+  },
+
+  /* Map view style for react-native-maps */
+  map: {
+    height: 160,
+    width: '100%',
   },
 
   /* Visit cards */
