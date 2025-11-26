@@ -1,14 +1,14 @@
 // app/components/SuccessPanel.tsx
 import { Ionicons } from "@expo/vector-icons";
-import React from "react";
+import React, { useState } from "react";
 import {
-    GestureResponderEvent,
-    Platform,
-    Pressable,
-    ScrollView,
-    StyleSheet,
-    Text,
-    View
+  GestureResponderEvent,
+  Platform,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View
 } from "react-native";
 
 type Product = {
@@ -25,6 +25,7 @@ type Props = {
   specialty?: string;
   onSubmit?: (e?: GestureResponderEvent) => void;
   products?: Product[];
+  onClosePanel?: () => void; 
 };
 
 // Local image (developer provided). The platform running this preview will convert the path to a URL.
@@ -40,9 +41,13 @@ export default function SuccessPanel({
     { id: "2", name: "Starpress AM", subtitle: "Beta Blocker + CCB Combination", slides: 3, completed: true },
     { id: "3", name: "Ramistar 10", subtitle: "ACE Inhibitor", slides: 3, completed: true },
   ],
+  onClosePanel,
 }: Props) {
   const completedCount = products.filter((p) => p.completed).length;
   const progress = productCount === 0 ? 0 : Math.round((completedCount / productCount) * 100);
+  const [showReportModal, setShowReportModal] = useState(false);
+  const [expandedProductId, setExpandedProductId] = useState<string | null>(null);
+
 
   return (
     <ScrollView style={styles.outer} contentContainerStyle={styles.contentContainer}>
@@ -93,7 +98,18 @@ export default function SuccessPanel({
                   <Text style={styles.productSubtitle}>{p.subtitle}</Text>
                 </View>
               </View>
-              <Ionicons name="chevron-down" size={20} color="#10b981" />
+              <Pressable
+  onPress={() => {
+    setExpandedProductId(expandedProductId === p.id ? null : p.id);
+  }}
+>
+  <Ionicons
+    name={expandedProductId === p.id ? "chevron-up" : "chevron-down"}
+    size={20}
+    color="#10b981"
+  />
+</Pressable>
+
             </View>
 
             <View style={styles.productRowBottom}>
@@ -101,7 +117,18 @@ export default function SuccessPanel({
               <View style={styles.completedBadge}>
                 <Text style={styles.completedText}>{p.completed ? "Completed" : "Pending"}</Text>
               </View>
+              
             </View>
+            {expandedProductId === p.id && (
+  <View style={styles.expandBox}>
+    <Text style={styles.slideHeader}>Slide Sequence:</Text>
+
+    <Text style={styles.slideItem}>1. Introduction - {p.name}</Text>
+    <Text style={styles.slideItem}>2. Clinical Evidence</Text>
+    <Text style={styles.slideItem}>3. Dosing & Administration</Text>
+    <Text style={styles.slideItem}>4. Safety & Tolerability</Text>
+  </View>
+)}
           </View>
         ))}
 
@@ -128,7 +155,10 @@ export default function SuccessPanel({
                 styles.cta,
                 pressed ? styles.ctaPressed : undefined,
               ]}
-              onPress={onSubmit}
+              onPress={() => {
+                onClosePanel?.();            // Close SuccessPanel
+  onSubmit?.();        // 👈 closes SuccessPanel modal
+              }}
             >
               <View style={styles.ctaContent}>
                 <Ionicons name="checkmark-done" size={18} color="#fff" />
@@ -407,4 +437,25 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "#e6e7eb",
   },
+  expandBox: {
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    padding: 12,
+    borderWidth: 1,
+    borderColor: "#d1fae5",
+    marginTop: 10,
+  },
+  
+  slideHeader: {
+    fontWeight: "700",
+    color: "#065f46",
+    marginBottom: 8,
+  },
+  
+  slideItem: {
+    color: "#065f46",
+    fontSize: 13,
+    marginBottom: 4,
+  },
+  
 });

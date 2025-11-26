@@ -7,13 +7,14 @@ import {
   SafeAreaView,
   ScrollView,
   Text,
+  TouchableWithoutFeedback,
   View,
   useWindowDimensions
 } from "react-native";
 import CallPlanning from "./CallPlanning";
 import DetailingPlayer from "./DetailingPlayer";
 import DetailingSequence from "./DetailingSequence";
-import ReportNewCallModal from "./ReportNewCallModal";
+import ReportCallModal from "./ReportCallModal";
 import SuccessPanel from "./SuccessPanel";
 
 type Props = {
@@ -40,7 +41,12 @@ const [showReportModal, setShowReportModal] = useState(false);
 const [slidesCompleted, setSlidesCompleted] = useState(false);
 const [hasShownReportOnce, setHasShownReportOnce] = useState(false);
 const [isFreshSession, setIsFreshSession] = useState(true);
-
+const [showSuccessPanel, setShowSuccessPanel] = useState(false);
+const [showReportCall, setShowReportCall] = useState(false);
+const [showJfw, setShowJfw] = useState(false);
+const [activeModal, setActiveModal] = useState<
+  "none" | "jfw" | "rcpa"
+>("none");
 
 useEffect(() => {
   if (visible) {
@@ -223,15 +229,22 @@ setHasShownReportOnce(false);
   const currentProduct = playIndex != null && playQueue[playIndex] ? playQueue[playIndex] : null;
 
   return (
+    <View>
     <Modal animationType="slide" visible={visible} transparent onRequestClose={onClose}>
       <SafeAreaView style={{ flex: 1, backgroundColor: "rgba(0,0,0,0.45)" }}>
         {/* <StatusBar barStyle="light-content" /> */}
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-          <Pressable
-            style={{ position: "absolute", left: 0, right: 0, top: 0, bottom: 0 }}
-            onPress={onClose}
-          />
-
+        <TouchableWithoutFeedback onPress={onClose}>
+  <View
+    style={{
+      position: "absolute",
+      left: 0,
+      right: 0,
+      top: 0,
+      bottom: 0,
+    }}
+  />
+   </TouchableWithoutFeedback>
           <View
             style={{
               width: containerWidth,
@@ -301,30 +314,37 @@ setHasShownReportOnce(false);
 
             {/* body: if a product in the playQueue is active -> show player */}
             {currentProduct ? (
-              <DetailingPlayer
-                product={currentProduct}
-                productIndex={playIndex ?? 0}
-                totalProducts={playQueue.length}
-                onBack={() => {
-                  closePlayer();
-                }}
-                onSlideViewed={handleSlideViewed}
-                onComplete={handleCompleteProduct}
-                onNextProduct={handleNextProduct}
-                onFinish={() => {
-                  // Show the SuccessPanel when user clicks Finish
-                  setShowSuccess(true);
-                  // optionally clear queue/index
-                  setPlayIndex(null);
-                  setPlayQueue([]);
-                  // ensure the detailing list is visible so the success UI sits in same modal body
-                  setShowDetailingList(true);
-                  setSlidesCompleted(true);
-setHasShownReportOnce(false); // allow showing report modal ONE TIME
-
-                }}
-                inline={true}
-              />
+            <DetailingPlayer
+            product={currentProduct}
+            productIndex={playIndex ?? 0}
+            totalProducts={playQueue.length}
+            onBack={() => {
+              closePlayer();         // already closes modal
+            }}
+            onSlideViewed={handleSlideViewed}
+            onComplete={handleCompleteProduct}
+            onNextProduct={handleNextProduct}
+            onFinish={() => {
+              // Show the SuccessPanel when user clicks Finish
+              setShowSuccess(true);
+            
+              // reset player states
+              setPlayIndex(null);
+              setPlayQueue([]);
+              setShowDetailingList(true);
+              setSlidesCompleted(true);
+              setHasShownReportOnce(false);
+            
+              // ❌ DO NOT close parent modal here
+              // closePlayer();  ← remove this too
+            
+              // 🟢 Keep parent modal open so success panel shows
+            }}
+            
+            
+            inline={true}
+          />
+          
             ) : showCallPlan ? (
               <CallPlanning
                 onCancel={() => setShowCallPlan(false)}
@@ -336,11 +356,22 @@ setHasShownReportOnce(false); // allow showing report modal ONE TIME
             ) : showDetailingList ? (
               showSuccess ? (
                 <SuccessPanel
-                onSubmit={() => {
-                  setHasCompletedDetailingBefore(true);  // remember first completion
-                  onClose();
-                }}
-                />
+  onSubmit={() => {
+    // Close SuccessPanel
+    setShowSuccess(false);
+
+    // Close parent HCPProfile modal
+    onClose();
+
+    // OPTIONAL: Open next modal after closing
+    setTimeout(() => {
+      setShowReportModal(true); 
+    }, 200);  // Android-safe delay
+  }}
+  onClosePanel={() => setShowSuccess(false)}
+/>
+
+
               ) : (
                 <DetailingSequence
                   onClose={() => setShowDetailingList(false)}
@@ -365,20 +396,28 @@ setHasShownReportOnce(false); // allow showing report modal ONE TIME
               />
             )}
           </View>
-          {showReportModal && (
-  <ReportNewCallModal
-    visible={showReportModal}
-    onClose={() => {
-      setShowReportModal(false);
-      setHasShownReportOnce(true);
-      setShowCallPlan(true);   // after closing, continue flow
-    }}
-  />
-)}
-
         </View>
       </SafeAreaView>
     </Modal>
+    <ReportCallModal
+  visible={showReportModal}
+  onClose={() => setShowReportModal(false)}
+  onSubmit={() => {
+    setShowReportModal(false);
+
+    // Open next modal here
+    setTimeout(() => setShowJfw(true), 150);
+  }}
+/>
+{/* <JFWModal
+  visible={showJfw}
+  onClose={() => setShowJfw(false)}
+  onContinue={() => {
+    setShowJfw(false);
+    // open RCPA next if needed
+  }}
+/> */}
+    </View>
   );
 }
 
@@ -476,28 +515,34 @@ function MainProfileContent({ hcp, onStartCall }: { hcp: any; onStartCall: () =>
         </View>
 
         {/* Tabs */}
-        <View style={{ flexDirection: "row", gap: 8, marginBottom: 12 }}>
-          <TabPill
-            label="Overview"
-            active={activeTab === "Overview"}
-            onPress={() => setActiveTab("Overview")}
-          />
-          <TabPill
-            label="Practice"
-            active={activeTab === "Practice"}
-            onPress={() => setActiveTab("Practice")}
-          />
-          <TabPill
-            label="Engagement"
-            active={activeTab === "Engagement"}
-            onPress={() => setActiveTab("Engagement")}
-          />
-          <TabPill
-            label="Insights"
-            active={activeTab === "Insights"}
-            onPress={() => setActiveTab("Insights")}
-          />
-        </View>
+        <ScrollView
+  horizontal
+  showsHorizontalScrollIndicator={false}
+  contentContainerStyle={{ flexDirection: "row", gap: 8 }}
+  style={{ marginBottom: 12 }}
+>
+  <TabPill
+    label="Overview"
+    active={activeTab === "Overview"}
+    onPress={() => setActiveTab("Overview")}
+  />
+  <TabPill
+    label="Practice"
+    active={activeTab === "Practice"}
+    onPress={() => setActiveTab("Practice")}
+  />
+  <TabPill
+    label="Engagement"
+    active={activeTab === "Engagement"}
+    onPress={() => setActiveTab("Engagement")}
+  />
+  <TabPill
+    label="Insights"
+    active={activeTab === "Insights"}
+    onPress={() => setActiveTab("Insights")}
+  />
+</ScrollView>
+
 
         {/* Tab content */}
         {activeTab === "Overview" && (
@@ -1685,20 +1730,39 @@ function EngagementItem({
       <View
         style={{
           flexDirection: "row",
-          justifyContent: "space-between",
           alignItems: "center",
+          justifyContent: "space-between",
         }}
       >
-        <View style={{ flexDirection: "row", gap: 12, alignItems: "center" }}>
+        {/* LEFT BLOCK */}
+        <View
+          style={{
+            flexDirection: "row",
+            gap: 12,
+            alignItems: "center",
+            flex: 1, // ← IMPORTANT: prevents text + icon from pushing status outside
+          }}
+        >
           {icon ?? null}
-          <View>
-            <Text style={{ fontWeight: "700" }}>{title}</Text>
+
+          <View style={{ flex: 1 }}>
+            <Text style={{ fontWeight: "700", flexWrap: "wrap" }}>{title}</Text>
+
             {subtitle ? (
-              <Text style={{ color: "#6b7280", marginTop: 6 }}>{subtitle}</Text>
+              <Text
+                style={{
+                  color: "#6b7280",
+                  marginTop: 4,
+                  flexWrap: "wrap",
+                }}
+              >
+                {subtitle}
+              </Text>
             ) : null}
           </View>
         </View>
 
+        {/* STATUS PILL */}
         {status ? (
           <View
             style={{
@@ -1706,15 +1770,20 @@ function EngagementItem({
               paddingHorizontal: 10,
               paddingVertical: 6,
               borderRadius: 999,
+              marginLeft: 10, // avoid touching text
+              flexShrink: 0,  // ensures pill NEVER shrinks/overflows
             }}
           >
-            <Text style={{ color: "#1e3a8a", fontWeight: "700" }}>{status}</Text>
+            <Text style={{ color: "#1e3a8a", fontWeight: "700" }}>
+              {status}
+            </Text>
           </View>
         ) : null}
       </View>
     </View>
   );
 }
+
 
 function PracticeStat({ label, value }: { label: string; value: string }) {
   return (

@@ -5,15 +5,15 @@ import React, { useState } from 'react';
 import ModalHcpProfile from "../../components/ModalHcpProfile";
 
 import {
-	Modal,
-	Platform,
-	Pressable,
-	ScrollView as RNScroll,
-	StatusBar,
-	StyleSheet,
-	Text,
-	TouchableOpacity,
-	View,
+  Modal,
+  Platform,
+  Pressable,
+  ScrollView as RNScroll,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
 } from 'react-native';
 import { ScrollView } from 'react-native-gesture-handler';
 import AttendanceModal from '../../app/modals/AttendanceModal';
@@ -21,16 +21,16 @@ import ProgressBar from '../../components/ProgressBar';
 import ScrollCards from '../../components/ScrollCards';
 import COLORS from '../../constants/LupinColors';
 import {
-	IconBox,
-	IconButtonCheck,
-	IconCalendar,
-	IconCheckCircle,
-	IconClipboard,
-	IconMapPin,
-	IconPhoneCall,
-	IconRupee,
-	IconSparkles,
-	IconUserCircle,
+  IconBox,
+  IconButtonCheck,
+  IconCalendar,
+  IconCheckCircle,
+  IconClipboard,
+  IconMapPin,
+  IconPhoneCall,
+  IconRupee,
+  IconSparkles,
+  IconUserCircle,
 } from '../../constants/LupinIcons';
 import DailyPlanningScreen from '../screens/modals/DailyPlanningScreen';
 
@@ -96,7 +96,7 @@ const HomeScreen = () => {
             <Text
               style={styles.bannerAction}
               onPress={() =>
-                router.push('/screens/field-activities/leave-attendance')
+                router.push('/(tabs)/leave-attendance')
               }
             >
               Apply Leave →
@@ -337,7 +337,7 @@ const HomeScreen = () => {
               <Text
                 style={styles.viewDetails}
                 onPress={() =>
-                  router.push('/screens/field-activities/sampleTracking')
+                  router.push('/(tabs)/sampleTracking')
                 }
               >
                 View All
@@ -351,7 +351,7 @@ const HomeScreen = () => {
                 styles.productUpdateRow,
                 { backgroundColor: '#ECFDF5' },
               ]}
-              onPress={() => router.push('/screens/field-activities/sampleTracking')}
+              onPress={() => router.push('/(tabs)/sampleTracking')}
             >
               <View style={styles.productLeft}>
                 <View
@@ -381,7 +381,7 @@ const HomeScreen = () => {
                 styles.productUpdateRow,
                 { backgroundColor: '#FEF2F2' },
               ]}
-              onPress={() => router.push('/screens/field-activities/sampleTracking')}
+              onPress={() => router.push('/(tabs)/sampleTracking')}
             >
               <View style={styles.productLeft}>
                 <View
@@ -411,7 +411,7 @@ const HomeScreen = () => {
                 styles.productUpdateRow,
                 { backgroundColor: '#EFF6FF' },
               ]}
-              onPress={() => router.push('/screens/field-activities/sampleTracking')}
+              onPress={() => router.push('/(tabs)/sampleTracking')}
             >
               <View style={styles.productLeft}>
                 <View
@@ -451,7 +451,7 @@ const HomeScreen = () => {
             </View>
             <Text style={styles.quickActionLabel}>Start Call</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.quickActionItem} onPress={() => router.push('/screens/field-activities/expense-management')}>
+          <TouchableOpacity style={styles.quickActionItem} onPress={() => router.push('/(tabs)/expense-management')}>
             <View
               style={[
                 styles.quickActionIconCircle,
@@ -462,7 +462,7 @@ const HomeScreen = () => {
             </View>
             <Text style={styles.quickActionLabel}>Add Expense</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.quickActionItem} onPress={() => router.push('/screens/field-activities/sampleTracking')}>
+          <TouchableOpacity style={styles.quickActionItem} onPress={() => router.push('/(tabs)/sampleTracking')}>
             <View
               style={[
                 styles.quickActionIconCircle,
@@ -473,7 +473,7 @@ const HomeScreen = () => {
             </View>
             <Text style={styles.quickActionLabel}>Track Sample</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.quickActionItem} onPress={() => router.push('/calls')}>
+          <TouchableOpacity style={styles.quickActionItem} onPress={() => router.push('/route')}>
             <View
               style={[
                 styles.quickActionIconCircle,
