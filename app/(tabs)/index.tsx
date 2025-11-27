@@ -96,7 +96,7 @@ const HomeScreen = () => {
             <Text
               style={styles.bannerAction}
               onPress={() =>
-                router.push('/(tabs)/leave-attendance')
+                router.push('/screens/field-activities/leave-attendance')
               }
             >
               Apply Leave →
@@ -337,7 +337,7 @@ const HomeScreen = () => {
               <Text
                 style={styles.viewDetails}
                 onPress={() =>
-                  router.push('/(tabs)/sampleTracking')
+                  router.push('/screens/field-activities/sampleTracking')
                 }
               >
                 View All
@@ -351,7 +351,7 @@ const HomeScreen = () => {
                 styles.productUpdateRow,
                 { backgroundColor: '#ECFDF5' },
               ]}
-              onPress={() => router.push('/(tabs)/sampleTracking')}
+              onPress={() => router.push('/screens/field-activities/sampleTracking')}
             >
               <View style={styles.productLeft}>
                 <View
@@ -381,7 +381,7 @@ const HomeScreen = () => {
                 styles.productUpdateRow,
                 { backgroundColor: '#FEF2F2' },
               ]}
-              onPress={() => router.push('/(tabs)/sampleTracking')}
+              onPress={() => router.push('/screens/field-activities/sampleTracking')}
             >
               <View style={styles.productLeft}>
                 <View
@@ -411,7 +411,7 @@ const HomeScreen = () => {
                 styles.productUpdateRow,
                 { backgroundColor: '#EFF6FF' },
               ]}
-              onPress={() => router.push('/(tabs)/sampleTracking')}
+              onPress={() => router.push('/screens/field-activities/sampleTracking')}
             >
               <View style={styles.productLeft}>
                 <View
@@ -451,7 +451,7 @@ const HomeScreen = () => {
             </View>
             <Text style={styles.quickActionLabel}>Start Call</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.quickActionItem} onPress={() => router.push('/(tabs)/expense-management')}>
+          <TouchableOpacity style={styles.quickActionItem} onPress={() => router.push('/screens/field-activities/expense-management')}>
             <View
               style={[
                 styles.quickActionIconCircle,
@@ -462,7 +462,7 @@ const HomeScreen = () => {
             </View>
             <Text style={styles.quickActionLabel}>Add Expense</Text>
           </TouchableOpacity>
-          <TouchableOpacity style={styles.quickActionItem} onPress={() => router.push('/(tabs)/sampleTracking')}>
+          <TouchableOpacity style={styles.quickActionItem} onPress={() => router.push('/screens/field-activities/sampleTracking')}>
             <View
               style={[
                 styles.quickActionIconCircle,

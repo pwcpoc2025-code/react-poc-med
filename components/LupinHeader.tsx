@@ -1,7 +1,8 @@
 import COLORS from '@/constants/LupinColors';
+import { IconBackIOS } from '@/constants/LupinIcons';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
-import { useNavigation } from 'expo-router';
+import { useNavigation, useRouter } from 'expo-router';
 import React from 'react';
 import {
   Image,
@@ -17,8 +18,14 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 const LUPIN_GREEN_LEFT = '#01963f';
 const LUPIN_GREEN_RIGHT = '#008a37';
 
-const LupinHeader: React.FC = () => {
+interface LupinHeaderProps {
+  showBack?: boolean;
+}
+
+const LupinHeader: React.FC<LupinHeaderProps> = ({ showBack = false }) => {
   const navigation = useNavigation();
+  const router = useRouter();
+
   const openDrawer = () => {
     (navigation as any).toggleDrawer?.();
   };
@@ -32,8 +39,14 @@ const LupinHeader: React.FC = () => {
     >
       <SafeAreaView edges={['top']} style={styles.safeArea}>
         <View style={styles.content}>
+          
           {/* Left: logo + titles */}
           <View style={styles.left}>
+            {showBack && (
+              <TouchableOpacity style={styles.backButton} onPress={() => router.replace({ pathname: '/(tabs)', params: { openDrawer: '1' } } as any)}>
+                <IconBackIOS color={'#fff'} />
+              </TouchableOpacity>
+            )}
             <View style={styles.logoBox}>
               <Image
                 source={require('../assets/images/logo-lu.png')}
@@ -51,14 +64,16 @@ const LupinHeader: React.FC = () => {
           </View>
 
           {/* Right: menu icon */}
-          <TouchableOpacity
+          {!showBack && (
+            <TouchableOpacity
             onPress={openDrawer}
             style={styles.menuButton}
             accessibilityRole="button"
             accessibilityLabel="Open menu"
-          >
-            <Ionicons name="menu" size={24} color="#ffffff" />
-          </TouchableOpacity>
+            >
+              <Ionicons name="menu" size={24} color="#ffffff" />
+            </TouchableOpacity> 
+          )}
         </View>
       </SafeAreaView>
     </LinearGradient>
@@ -114,6 +129,14 @@ const styles = StyleSheet.create({
   },
   menuButton: {
     padding: 8,
+  },
+  backButton: {
+    width: 35,
+    height: 35,
+    borderRadius: 16,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginRight: 12,
   },
 });
 
