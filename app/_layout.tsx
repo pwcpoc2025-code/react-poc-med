@@ -359,7 +359,7 @@ function CustomDrawerContent(props: any) {
             <Text style={styles.itemText}>End-of-Day Review</Text>
           </LabelWrapper>
         )}
-        onPress={() => {}}
+        onPress={() => router.push('/screens/team-learning/EndOfDayReview')}
       />
 
       {/* COMPLIANCE & SUPPORT */}
@@ -377,7 +377,7 @@ function CustomDrawerContent(props: any) {
             <Text style={styles.itemText}>Compliance & Audit</Text>
           </LabelWrapper>
         )}
-        onPress={() => {}}
+        onPress={() => router.push('/screens/compliance-audit/ComplianceAuditScreen')}
       />
 
       <DrawerItem
@@ -397,7 +397,7 @@ function CustomDrawerContent(props: any) {
             </View>
           </LabelWrapper>
         )}
-        onPress={() => {}}
+        onPress={() => router.push('/(tabs)')}
       />
 
       <DrawerItem
@@ -417,7 +417,7 @@ function CustomDrawerContent(props: any) {
             </View>
           </LabelWrapper>
         )}
-        onPress={() => {}}
+        onPress={() => {router.push('/screens/compliance-audit/SystemExperience')}}
       />
 
       <DrawerItem
@@ -432,7 +432,7 @@ function CustomDrawerContent(props: any) {
             <Text style={styles.itemText}>Settings</Text>
           </LabelWrapper>
         )}
-        onPress={() => {}}
+        onPress={() => {router.push('/screens/compliance-audit/SettingsScreen')}}
       />
 </GHScrollView>
       {/* Logout - pinned visually at bottom of content */}
