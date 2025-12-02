@@ -1987,157 +1987,163 @@ const App: React.FC = () => {
               Schedule a joint visit with a team member to an HCP clinic
             </Text>
 
-            {/* TEAM MEMBER */}
-            <Text style={styles.ticketLabel}>Select Team Member *</Text>
-            <TouchableOpacity
-              style={styles.selectBox}
-              onPress={() => {
-                setShowTeamDropdown(!showTeamDropdown);
-                setShowDoctorDropdown(false);
-              }}
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ paddingBottom: 20 }}
+              style={{ flex: 1 }}
             >
-              <Text style={teamMember ? styles.selectText : styles.selectPlaceholder}>
-                {teamMember || "Choose team member..."}
-              </Text>
-              <Ionicons name="chevron-down" size={18} color="#333" />
-            </TouchableOpacity>
-
-            {showTeamDropdown && (
-              <View style={styles.selectDropdown}>
-                {["Choose team member...", ...TEAM_MEMBERS].map((item, index) => {
-                  const isSelected = teamMember === item;
-                  return (
-                    <TouchableOpacity
-                      key={index}
-                      style={[
-                        styles.selectOption,
-                        isSelected && styles.selectOptionSelected
-                      ]}
-                      onPress={() => {
-                        if (item !== "Choose team member...") setTeamMember(item);
-                        setShowTeamDropdown(false);
-                      }}
-                    >
-                      <Text
-                        style={[
-                          styles.selectOptionText,
-                          isSelected && styles.selectOptionTextSelected
-                        ]}
-                      >
-                        {item}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
-              </View>
-            )}
-
-
-
-            {/* DOCTOR */}
-            <Text style={styles.ticketLabel}>Doctor to Visit *</Text>
-
-            <TouchableOpacity
-              style={styles.selectBox}
-              onPress={() => {
-                setShowDoctorDropdown(!showDoctorDropdown);
-                setShowTeamDropdown(false); // ensure only one dropdown open at a time
-              }}
-            >
-              <Text style={doctor ? styles.selectText : styles.selectPlaceholder}>
-                {doctor || "Choose doctor..."}
-              </Text>
-              <Ionicons name="chevron-down" size={18} color="#333" />
-            </TouchableOpacity>
-
-            {showDoctorDropdown && (
-              <View style={styles.selectDropdown}>
-                {["Choose doctor...", ...DOCTORS].map((item, index) => {
-                  const isSelected = doctor === item;
-                  return (
-                    <TouchableOpacity
-                      key={index}
-                      style={[
-                        styles.selectOption,
-                        isSelected && styles.selectOptionSelected
-                      ]}
-                      onPress={() => {
-                        if (item !== "Choose doctor...") setDoctor(item);
-                        setShowDoctorDropdown(false);
-                      }}
-                    >
-                      <Text
-                        style={[
-                          styles.selectOptionText,
-                          isSelected && styles.selectOptionTextSelected
-                        ]}
-                      >
-                        {item}
-                      </Text>
-                    </TouchableOpacity>
-                  );
-                })}
-              </View>
-            )}
-
-
-
-            {/* CLINIC */}
-            <Text style={styles.ticketLabel}>Clinic/Location</Text>
-            <TextInput
-              placeholder="e.g., City Care Multi-Specialty Clinic"
-              style={styles.ticketInput}
-              value={clinic}
-              onChangeText={setClinic}
-            />
-
-            {/* DATE + TIME */}
-            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-              <View style={{ width: "48%" }}>
-                <Text style={styles.ticketLabel}>Date *</Text>
-                <TextInput
-                  placeholder="dd-mm-yyyy"
-                  style={styles.ticketInput}
-                  value={date}
-                  onChangeText={setDate}
-                />
-              </View>
-
-              <View style={{ width: "48%" }}>
-                <Text style={styles.ticketLabel}>Time</Text>
-                <TextInput
-                  placeholder="--:--"
-                  style={styles.ticketInput}
-                  value={time}
-                  onChangeText={setTime}
-                />
-              </View>
-            </View>
-
-            {/* REASON */}
-            <Text style={styles.ticketLabel}>Reason for Joint Visit *</Text>
-            <TextInput
-              placeholder="e.g., Doctor has additional queries regarding side effects of the drug…"
-              style={[styles.ticketInput, { height: 90 }]}
-              value={reason}
-              onChangeText={setReason}
-              multiline
-            />
-
-            {/* BENEFITS BOX */}
-            <View style={styles.jfwBenefitsBox}>
-              <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 6 }}>
-                <MaterialCommunityIcons name="music-note-eighth" size={18} color="#1A57CC" />
-                <Text style={{ fontWeight: "700", marginLeft: 6, color: "#1A57CC" }}>
-                  Joint Field Work Benefits:
+              {/* TEAM MEMBER */}
+              <Text style={styles.ticketLabel}>Select Team Member *</Text>
+              <TouchableOpacity
+                style={styles.selectBox}
+                onPress={() => {
+                  setShowTeamDropdown(!showTeamDropdown);
+                  setShowDoctorDropdown(false);
+                }}
+              >
+                <Text style={teamMember ? styles.selectText : styles.selectPlaceholder}>
+                  {teamMember || "Choose team member..."}
                 </Text>
+                <Ionicons name="chevron-down" size={18} color="#333" />
+              </TouchableOpacity>
+
+              {showTeamDropdown && (
+                <View style={styles.selectDropdown}>
+                  {["Choose team member...", ...TEAM_MEMBERS].map((item, index) => {
+                    const isSelected = teamMember === item;
+                    return (
+                      <TouchableOpacity
+                        key={index}
+                        style={[
+                          styles.selectOption,
+                          isSelected && styles.selectOptionSelected
+                        ]}
+                        onPress={() => {
+                          if (item !== "Choose team member...") setTeamMember(item);
+                          setShowTeamDropdown(false);
+                        }}
+                      >
+                        <Text
+                          style={[
+                            styles.selectOptionText,
+                            isSelected && styles.selectOptionTextSelected
+                          ]}
+                        >
+                          {item}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+              )}
+
+
+
+              {/* DOCTOR */}
+              <Text style={styles.ticketLabel}>Doctor to Visit *</Text>
+
+              <TouchableOpacity
+                style={styles.selectBox}
+                onPress={() => {
+                  setShowDoctorDropdown(!showDoctorDropdown);
+                  setShowTeamDropdown(false); // ensure only one dropdown open at a time
+                }}
+              >
+                <Text style={doctor ? styles.selectText : styles.selectPlaceholder}>
+                  {doctor || "Choose doctor..."}
+                </Text>
+                <Ionicons name="chevron-down" size={18} color="#333" />
+              </TouchableOpacity>
+
+              {showDoctorDropdown && (
+                <View style={styles.selectDropdown}>
+                  {["Choose doctor...", ...DOCTORS].map((item, index) => {
+                    const isSelected = doctor === item;
+                    return (
+                      <TouchableOpacity
+                        key={index}
+                        style={[
+                          styles.selectOption,
+                          isSelected && styles.selectOptionSelected
+                        ]}
+                        onPress={() => {
+                          if (item !== "Choose doctor...") setDoctor(item);
+                          setShowDoctorDropdown(false);
+                        }}
+                      >
+                        <Text
+                          style={[
+                            styles.selectOptionText,
+                            isSelected && styles.selectOptionTextSelected
+                          ]}
+                        >
+                          {item}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </View>
+              )}
+
+
+
+              {/* CLINIC */}
+              <Text style={styles.ticketLabel}>Clinic/Location</Text>
+              <TextInput
+                placeholder="e.g., City Care Multi-Specialty Clinic"
+                style={styles.ticketInput}
+                value={clinic}
+                onChangeText={setClinic}
+              />
+
+              {/* DATE + TIME */}
+              <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                <View style={{ width: "48%" }}>
+                  <Text style={styles.ticketLabel}>Date *</Text>
+                  <TextInput
+                    placeholder="dd-mm-yyyy"
+                    style={styles.ticketInput}
+                    value={date}
+                    onChangeText={setDate}
+                  />
+                </View>
+
+                <View style={{ width: "48%" }}>
+                  <Text style={styles.ticketLabel}>Time</Text>
+                  <TextInput
+                    placeholder="--:--"
+                    style={styles.ticketInput}
+                    value={time}
+                    onChangeText={setTime}
+                  />
+                </View>
               </View>
 
-              <Text style={styles.benefitsText}>• Knowledge sharing and skill development</Text>
-              <Text style={styles.benefitsText}>• Complex case handling with senior support</Text>
-              <Text style={styles.benefitsText}>• Relationship building with key HCPs</Text>
-              <Text style={styles.benefitsText}>• Real-time coaching and feedback</Text>
-            </View>
+              {/* REASON */}
+              <Text style={styles.ticketLabel}>Reason for Joint Visit *</Text>
+              <TextInput
+                placeholder="e.g., Doctor has additional queries regarding side effects of the drug…"
+                style={[styles.ticketInput, { height: 90 }]}
+                value={reason}
+                onChangeText={setReason}
+                multiline
+              />
+
+              {/* BENEFITS BOX */}
+              <View style={styles.jfwBenefitsBox}>
+                <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 6 }}>
+                  <MaterialCommunityIcons name="music-note-eighth" size={18} color="#1A57CC" />
+                  <Text style={{ fontWeight: "700", marginLeft: 6, color: "#1A57CC" }}>
+                    Joint Field Work Benefits:
+                  </Text>
+                </View>
+
+                <Text style={styles.benefitsText}>• Knowledge sharing and skill development</Text>
+                <Text style={styles.benefitsText}>• Complex case handling with senior support</Text>
+                <Text style={styles.benefitsText}>• Relationship building with key HCPs</Text>
+                <Text style={styles.benefitsText}>• Real-time coaching and feedback</Text>
+              </View>
+            </ScrollView>
 
             {/* FOOTER BUTTONS */}
             <View style={styles.modalFooter}>
@@ -2200,88 +2206,94 @@ const App: React.FC = () => {
             </Text>
 
             {/* CATEGORY */}
-            <Text style={styles.ticketLabel}>Category *</Text>
-            <View style={{ flexDirection: "row", flexWrap: "wrap", marginBottom: 6 }}>
-              {["Success Story", "Best Practice", "Market Intel", "Product Feedback"].map((c) => (
-                <TouchableOpacity
-                  key={c}
-                  onPress={() => setInsightCategory(c)}
-                  style={[
-                    styles.categoryPillShareInsight,
-                    insightCategory === c && styles.categoryPillActive
-                  ]}
-                >
-                  <Text
+            <ScrollView
+              showsVerticalScrollIndicator={false}
+              contentContainerStyle={{ paddingBottom: 20 }}
+              style={{ flex: 1 }}
+            >
+              <Text style={styles.ticketLabel}>Category *</Text>
+              <View style={{ flexDirection: "row", flexWrap: "wrap", marginBottom: 6 }}>
+                {["Success Story", "Best Practice", "Market Intel", "Product Feedback"].map((c) => (
+                  <TouchableOpacity
+                    key={c}
+                    onPress={() => setInsightCategory(c)}
                     style={[
-                      styles.categoryPillText,
-                      insightCategory === c && styles.categoryPillTextActive
+                      styles.categoryPillShareInsight,
+                      insightCategory === c && styles.categoryPillActive
                     ]}
                   >
-                    {c}
-                  </Text>
+                    <Text
+                      style={[
+                        styles.categoryPillText,
+                        insightCategory === c && styles.categoryPillTextActive
+                      ]}
+                    >
+                      {c}
+                    </Text>
+                  </TouchableOpacity>
+                ))}
+              </View>
+
+              {/* TITLE */}
+              <Text style={styles.ticketLabel}>Title *</Text>
+              <TextInput
+                placeholder="Enter a descriptive title..."
+                style={styles.ticketInput}
+                value={insightTitle}
+                onChangeText={setInsightTitle}
+              />
+
+              {/* CONTENT */}
+              <Text style={styles.ticketLabel}>Content *</Text>
+              <TextInput
+                placeholder="Share your insight, strategy, learning, or observation..."
+                style={[styles.ticketInput, { height: 100 }]}
+                value={insightContent}
+                onChangeText={setInsightContent}
+                multiline
+              />
+
+              {/* OPTIONAL METRICS */}
+              <Text style={styles.ticketLabel}>Add Metrics (Optional)</Text>
+              <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                <TextInput
+                  placeholder="Doctors"
+                  keyboardType="numeric"
+                  value={insightDoctors}
+                  onChangeText={(t) => setInsightDoctors(t.replace(/[^0-9]/g, ""))}
+                  style={styles.metricInput}
+                />
+                <TextInput
+                  placeholder="Prescriptions"
+                  keyboardType="numeric"
+                  value={insightPrescriptions}
+                  onChangeText={(t) => setInsightPrescriptions(t.replace(/[^0-9]/g, ""))}
+                  style={styles.metricInput}
+                />
+                <TextInput
+                  placeholder="Revenue ₹"
+                  keyboardType="numeric"
+                  value={insightRevenue}
+                  onChangeText={(t) => setInsightRevenue(t.replace(/[^0-9]/g, ""))}
+                  style={styles.metricInput}
+                />
+              </View>
+
+
+              {/* OPTIONAL ATTACHMENTS */}
+              <Text style={[styles.ticketLabel, { marginTop: 10 }]}>Attachments (Optional)</Text>
+              <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+                <TouchableOpacity style={styles.fileBtn}>
+                  <MaterialCommunityIcons name="file-outline" size={18} />
+                  <Text style={{ marginLeft: 6 }}>Add File</Text>
                 </TouchableOpacity>
-              ))}
-            </View>
 
-            {/* TITLE */}
-            <Text style={styles.ticketLabel}>Title *</Text>
-            <TextInput
-              placeholder="Enter a descriptive title..."
-              style={styles.ticketInput}
-              value={insightTitle}
-              onChangeText={setInsightTitle}
-            />
-
-            {/* CONTENT */}
-            <Text style={styles.ticketLabel}>Content *</Text>
-            <TextInput
-              placeholder="Share your insight, strategy, learning, or observation..."
-              style={[styles.ticketInput, { height: 100 }]}
-              value={insightContent}
-              onChangeText={setInsightContent}
-              multiline
-            />
-
-            {/* OPTIONAL METRICS */}
-            <Text style={styles.ticketLabel}>Add Metrics (Optional)</Text>
-            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-              <TextInput
-                placeholder="Doctors"
-                keyboardType="numeric"
-                value={insightDoctors}
-                onChangeText={(t) => setInsightDoctors(t.replace(/[^0-9]/g, ""))}
-                style={styles.metricInput}
-              />
-              <TextInput
-                placeholder="Prescriptions"
-                keyboardType="numeric"
-                value={insightPrescriptions}
-                onChangeText={(t) => setInsightPrescriptions(t.replace(/[^0-9]/g, ""))}
-                style={styles.metricInput}
-              />
-              <TextInput
-                placeholder="Revenue ₹"
-                keyboardType="numeric"
-                value={insightRevenue}
-                onChangeText={(t) => setInsightRevenue(t.replace(/[^0-9]/g, ""))}
-                style={styles.metricInput}
-              />
-            </View>
-
-
-            {/* OPTIONAL ATTACHMENTS */}
-            <Text style={[styles.ticketLabel, { marginTop: 10 }]}>Attachments (Optional)</Text>
-            <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
-              <TouchableOpacity style={styles.fileBtn}>
-                <MaterialCommunityIcons name="file-outline" size={18} />
-                <Text style={{ marginLeft: 6 }}>Add File</Text>
-              </TouchableOpacity>
-
-              <TouchableOpacity style={styles.fileBtn}>
-                <MaterialCommunityIcons name="image-outline" size={18} />
-                <Text style={{ marginLeft: 6 }}>Add Image</Text>
-              </TouchableOpacity>
-            </View>
+                <TouchableOpacity style={styles.fileBtn}>
+                  <MaterialCommunityIcons name="image-outline" size={18} />
+                  <Text style={{ marginLeft: 6 }}>Add Image</Text>
+                </TouchableOpacity>
+              </View>
+            </ScrollView>
 
             {/* FOOTER BUTTONS */}
             <View style={styles.modalFooter}>
@@ -3487,7 +3499,10 @@ const styles = StyleSheet.create({
   modalFooter: {
     flexDirection: "row",
     justifyContent: "space-between",
-    marginTop: 20,
+    alignItems: "center",
+    paddingTop: 12,
+    paddingBottom: 16,
+    backgroundColor: "#fff",
   },
 
   cancelBtn: {
@@ -3527,9 +3542,12 @@ const styles = StyleSheet.create({
   jfwModalBox: {
     width: "100%",
     maxWidth: 480,
+    height: "78%",          // 🔥 fixed height so Android doesn't extend fullscreen
     backgroundColor: "#fff",
     borderRadius: 12,
-    padding: 22,
+    paddingHorizontal: 22,
+    paddingTop: 18,
+    paddingBottom: 0,
     position: "relative",
   },
 
@@ -3659,9 +3677,12 @@ const styles = StyleSheet.create({
   insightModalBox: {
     width: "100%",
     maxWidth: 480,
+    height: "78%",          // 🔥 fixed height so Android doesn't extend fullscreen
     backgroundColor: "#fff",
     borderRadius: 12,
-    padding: 22,
+    paddingHorizontal: 22,
+    paddingTop: 18,
+    paddingBottom: 0,
     position: "relative",
   },
 
