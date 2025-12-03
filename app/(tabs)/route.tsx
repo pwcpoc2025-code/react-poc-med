@@ -1,12 +1,11 @@
 import FilterRoutesDrawer from "@/components/FilterRoutesDrawer";
-import { Ionicons } from "@expo/vector-icons";
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useState } from "react";
 import {
   ScrollView,
   StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
+  Text, TextInput, TouchableOpacity,
+  View
 } from "react-native";
 import MapView, { UrlTile } from 'react-native-maps';
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -30,8 +29,147 @@ const COLORS = {
   headerBg: "#e5e7eb"
 };
 
+const ROUTE_TABS = ["Today's Route", "Map View", "This Week", "Plan New"] as const;
+type RouteTab = (typeof ROUTE_TABS)[number];
+
+type RouteSummary = {
+  distanceKm: string;
+  duration: string;
+  visits: number;
+  traffic: "Light" | "Moderate" | "Heavy";
+};
+
+type Poi = {
+  id: string;
+  name: string;
+  type: string;
+  distanceKm: string;
+  colorDot: string;
+};
+
+type DoctorCoverage = {
+  id: string;
+  name: string;
+  tier: "Gold" | "Silver" | "Bronze";
+  lastVisit: string;
+  requiredFrequency: string;
+  rxPotential: string;
+  status: "Overdue" | "New" | "Upcoming";
+};
+
+type MapViewData = {
+  summary: RouteSummary;
+  liveTrafficMessage: string;
+  pois: Poi[];
+  doctors: DoctorCoverage[];
+};
+
+const MAP_VIEW_DATA: MapViewData = {
+  summary: {
+    distanceKm: "18.6 km",
+    duration: "6h 20m",
+    visits: 6,
+    traffic: "Light",
+  },
+  liveTrafficMessage:
+    "Heavy traffic detected near Bombay Hospital (Stop 5). Consider rescheduling or alternative route will add 15 minutes.",
+  pois: [
+    {
+      id: "poi1",
+      name: "Cafe Coffee Day",
+      type: "Cafe",
+      distanceKm: "0.3 km",
+      colorDot: "#F59E0B",
+    },
+    {
+      id: "poi2",
+      name: "Reliance Smart Pharmacy",
+      type: "Pharmacy",
+      distanceKm: "0.5 km",
+      colorDot: "#22C55E",
+    },
+    {
+      id: "poi3",
+      name: "HDFC Bank ATM",
+      type: "ATM",
+      distanceKm: "0.2 km",
+      colorDot: "#3B82F6",
+    },
+    {
+      id: "poi4",
+      name: "HP Petrol Pump",
+      type: "Fuel Station",
+      distanceKm: "1.2 km",
+      colorDot: "#EF4444",
+    },
+  ],
+  doctors: [
+    {
+      id: "doc1",
+      name: "Dr. Sharma",
+      tier: "Gold",
+      lastVisit: "Last visit: 3 weeks ago",
+      requiredFrequency: "Required frequency: Biweekly",
+      rxPotential: "Rx Potential: Very High",
+      status: "Overdue",
+    },
+    {
+      id: "doc2",
+      name: "Dr. Mehta",
+      tier: "Gold",
+      lastVisit: "Last visit: 4 weeks ago",
+      requiredFrequency: "Required frequency: Biweekly",
+      rxPotential: "Rx Potential: Very High",
+      status: "Overdue",
+    },
+    {
+      id: "doc3",
+      name: "Dr. Gupta",
+      tier: "Gold",
+      lastVisit: "Last visit: Never",
+      requiredFrequency: "Required frequency: Biweekly",
+      rxPotential: "Rx Potential: Very High",
+      status: "New",
+    },
+  ],
+}
+const { summary } = MAP_VIEW_DATA;
+
+type WeekDay = {
+  day: string;
+  date: string;
+  planned: number;
+  coverage: number;
+  completed?: number; // undefined means not completed
+};
+
+const WEEK_DATA: WeekDay[] = [
+  { day: "Monday", date: "Nov 4, 2025", planned: 6, coverage: 8, completed: 6 },
+  { day: "Tuesday", date: "Nov 5, 2025", planned: 7, coverage: 9 },
+  { day: "Wednesday", date: "Nov 6, 2025", planned: 5, coverage: 7 },
+  { day: "Thursday", date: "Nov 7, 2025", planned: 8, coverage: 10 },
+  { day: "Friday", date: "Nov 8, 2025", planned: 6, coverage: 8 },
+];
+
+const HCP_OPTIONS = [
+  "High Priority (Gold Tier)",
+  "Medium Priority (Silver Tier)",
+  "All Tiers",
+  "Pending Visits (Last 30 days)"
+];
+
 export default function RouteScreen() {
   const [showFilter, setShowFilter] = useState(false);
+  const [activeRouteTab, setActiveRouteTab] = useState<RouteTab>("Today's Route");
+  const [date, setDate] = useState("");
+  const [hcp, setHcp] = useState(HCP_OPTIONS[0]);
+  const [hcpDropdownOpen, setHcpDropdownOpen] = useState(false);
+  const [maxVisits, setMaxVisits] = useState("6");
+  const [aiEnabled, setAiEnabled] = useState(true);
+  const [aiAlert, setAiAlert] = useState<string | null>(null);
+  const [aiAlertIcon, setAiAlertIcon] = useState<string | null>(null);
+
+
   return (
     <SafeAreaView edges={['bottom']} style={styles.safeArea}>
       <View style={styles.container}>
@@ -148,72 +286,84 @@ export default function RouteScreen() {
           </View>
 
           {/* TABS (Today's Route / Map View / This Week / Plan New) */}
-          <View style={styles.tabRow}>
-            <TopTab label="Today's Route" active />
-            <TopTab label="Map View" />
-            <TopTab label="This Week" />
-            <TopTab label="Plan New" />
+          <View style={styles.tabsWrapper}>
+            {ROUTE_TABS.map((tab) => {
+              const isActive = tab === activeRouteTab;
+              return (
+                <TouchableOpacity
+                  key={tab}
+                  style={[styles.tabPill, isActive && styles.tabPillActive]}
+                  onPress={() => setActiveRouteTab(tab)}
+                >
+                  <Text style={[styles.tabPillText, isActive && styles.tabPillTextActive]}>
+                    {tab}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
           </View>
 
-          {/* AI ROUTE INTELLIGENCE BANNER */}
-          <View style={styles.aiRouteCard}>
-            <View style={styles.rowBetween}>
-              <View>
-                <Text style={styles.aiRouteTitle}>AI Route Intelligence</Text>
-                <Text style={styles.aiRouteSubtitle}>
-                  Real-time optimization with traffic & availability
+          {activeRouteTab === "Today's Route" && (
+            <View>
+              {/* AI ROUTE INTELLIGENCE BANNER */}
+              <View style={styles.aiRouteCard}>
+                <View style={styles.rowBetween}>
+                  <View>
+                    <Text style={styles.aiRouteTitle}>AI Route Intelligence</Text>
+                    <Text style={styles.aiRouteSubtitle}>
+                      Real-time optimization with traffic & availability
+                    </Text>
+                  </View>
+                  <Ionicons name="sparkles-outline" size={22} color="#fff" />
+                </View>
+
+                <View style={styles.aiRouteNoteRow}>
+                  <View style={styles.dot} />
+                  <Text style={styles.aiRouteNote}>
+                    Light traffic on Linking Road until 11 AM – Saves 25 mins
+                  </Text>
+                </View>
+                <View style={styles.aiRouteNoteRow}>
+                  <View style={styles.dot} />
+                  <Text style={styles.aiRouteNote}>
+                    Dr. Sharma available 9-11 AM – Book early slot
+                  </Text>
+                </View>
+              </View>
+
+              {/* ROUTE / MAP / HCP / CALLS / ANALYTICS SMALL TABBAR */}
+              <View style={styles.subTabRow}>
+                <BottomMiniTab label="Route" active />
+                <BottomMiniTab label="Map" />
+                <BottomMiniTab label="HCPs" />
+                <BottomMiniTab label="Calls" />
+                <BottomMiniTab label="Analytics" />
+              </View>
+
+              {/* OPTIMIZED ROUTE SUMMARY */}
+              <View style={styles.section}>
+                <View style={styles.rowBetween}>
+                  <Text style={styles.sectionTitle}>Optimized Route</Text>
+                  <TouchableOpacity style={styles.startBtn}>
+                    <Ionicons name="play" size={14} color="#fff" />
+                    <Text style={styles.startBtnText}>Start GPS</Text>
+                  </TouchableOpacity>
+                </View>
+
+                <View style={styles.grid3}>
+                  <MiniStat label="Total Distance" value="18.6 km" />
+                  <MiniStat label="Est. Time" value="6h 20m" />
+                  <MiniStat label="Visits" value="6" />
+                </View>
+
+                <Text style={styles.helperText}>
+                  Route optimized considering traffic patterns and HCP availability.
                 </Text>
               </View>
-              <Ionicons name="sparkles-outline" size={22} color="#fff" />
-            </View>
 
-            <View style={styles.aiRouteNoteRow}>
-              <View style={styles.dot} />
-              <Text style={styles.aiRouteNote}>
-                Light traffic on Linking Road until 11 AM – Saves 25 mins
-              </Text>
-            </View>
-            <View style={styles.aiRouteNoteRow}>
-              <View style={styles.dot} />
-              <Text style={styles.aiRouteNote}>
-                Dr. Sharma available 9-11 AM – Book early slot
-              </Text>
-            </View>
-          </View>
-
-          {/* ROUTE / MAP / HCP / CALLS / ANALYTICS SMALL TABBAR */}
-          <View style={styles.subTabRow}>
-            <BottomMiniTab label="Route" active />
-            <BottomMiniTab label="Map" />
-            <BottomMiniTab label="HCPs" />
-            <BottomMiniTab label="Calls" />
-            <BottomMiniTab label="Analytics" />
-          </View>
-
-          {/* OPTIMIZED ROUTE SUMMARY */}
-          <View style={styles.section}>
-            <View style={styles.rowBetween}>
-              <Text style={styles.sectionTitle}>Optimized Route</Text>
-              <TouchableOpacity style={styles.startBtn}>
-                <Ionicons name="play" size={14} color="#fff" />
-                <Text style={styles.startBtnText}>Start GPS</Text>
-              </TouchableOpacity>
-            </View>
-
-            <View style={styles.grid3}>
-              <MiniStat label="Total Distance" value="18.6 km" />
-              <MiniStat label="Est. Time" value="6h 20m" />
-              <MiniStat label="Visits" value="6" />
-            </View>
-
-            <Text style={styles.helperText}>
-              Route optimized considering traffic patterns and HCP availability.
-            </Text>
-          </View>
-
-          {/* OpenStreetMap via react-native-maps UrlTile */}
-          <View style={{ marginTop: 14, marginHorizontal: 16, borderRadius: 16, overflow: 'hidden' }}>
-            <MapView
+              {/* OpenStreetMap via react-native-maps UrlTile */}
+              <View style={{ marginTop: 14, marginHorizontal: 16, borderRadius: 16, overflow: 'hidden' }}>
+                <MapView
               style={styles.map}
               initialRegion={{
                 latitude: 19.0176,
@@ -228,104 +378,95 @@ export default function RouteScreen() {
                 flipY={false}
               />
             </MapView>
-          </View>
+              </View>
 
-          {/* VISIT LIST */}
-          <View style={styles.section}>
-            <VisitCard
-              index={1}
-              name="Dr. Sharma"
-              speciality="Cardiologist"
-              tags={["Gold", "High"]}
-              distance="2.3 km"
-              rxPotential="High"
-              traffic="Light"
-              time="09:00 AM"
-              duration="45 min"
-            />
-            <VisitCard
-              index={2}
-              name="Dr. Patel"
-              speciality="Diabetologist"
-              tags={["Silver", "Medium"]}
-              distance="1.8 km"
-              rxPotential="Medium"
-              traffic="Light"
-              time="10:30 AM"
-              duration="30 min"
-            />
-            <VisitCard
-              index={3}
-              name="Dr. Mehta"
-              speciality="General Physician"
-              tags={["Gold", "High"]}
-              distance="3.2 km"
-              rxPotential="Very High"
-              traffic="Moderate"
-              time="12:00 PM"
-              duration="50 min"
-            />
-            <VisitCard
-              index={4}
-              name="Dr. Kumar"
-              speciality="Cardiologist"
-              tags={["Bronze", "Low"]}
-              distance="2.1 km"
-              rxPotential="Medium"
-              traffic="Heavy"
-              time="02:00 PM"
-              duration="40 min"
-            />
-            <VisitCard
-              index={5}
-              name="Dr. Gupta"
-              speciality="Endocrinologist"
-              tags={["Gold", "High"]}
-              distance="4.5 km"
-              rxPotential="Very High"
-              traffic="Heavy"
-              time="03:30 PM"
-              duration="60 min"
-            />
-            <VisitCard
-              index={6}
-              name="Dr. Singh"
-              speciality="Diabetologist"
-              tags={["Silver", "Medium"]}
-              distance="2.8 km"
-              rxPotential="High"
-              traffic="Moderate"
-              time="05:00 PM"
-              duration="35 min"
-            />
-          </View>
+              {/* VISIT LIST */}
+              <View style={styles.section}>
+                <VisitCard
+                  index={1}
+                  name="Dr. Sharma"
+                  speciality="Cardiologist"
+                  tags={["Gold", "High"]}
+                  distance="2.3 km"
+                  rxPotential="High"
+                  traffic="Light"
+                  time="09:00 AM"
+                  duration="45 min"
+                />
+                <VisitCard
+                  index={2}
+                  name="Dr. Patel"
+                  speciality="Diabetologist"
+                  tags={["Silver", "Medium"]}
+                  distance="1.8 km"
+                  rxPotential="Medium"
+                  traffic="Light"
+                  time="10:30 AM"
+                  duration="30 min"
+                />
+                <VisitCard
+                  index={3}
+                  name="Dr. Mehta"
+                  speciality="General Physician"
+                  tags={["Gold", "High"]}
+                  distance="3.2 km"
+                  rxPotential="Very High"
+                  traffic="Moderate"
+                  time="12:00 PM"
+                  duration="50 min"
+                />
+                <VisitCard
+                  index={4}
+                  name="Dr. Kumar"
+                  speciality="Cardiologist"
+                  tags={["Bronze", "Low"]}
+                  distance="2.1 km"
+                  rxPotential="Medium"
+                  traffic="Heavy"
+                  time="02:00 PM"
+                  duration="40 min"
+                />
+                <VisitCard
+                  index={5}
+                  name="Dr. Gupta"
+                  speciality="Endocrinologist"
+                  tags={["Gold", "High"]}
+                  distance="4.5 km"
+                  rxPotential="Very High"
+                  traffic="Heavy"
+                  time="03:30 PM"
+                  duration="60 min"
+                />
+                <VisitCard
+                  index={6}
+                  name="Dr. Singh"
+                  speciality="Diabetologist"
+                  tags={["Silver", "Medium"]}
+                  distance="2.8 km"
+                  rxPotential="High"
+                  traffic="Moderate"
+                  time="05:00 PM"
+                  duration="35 min"
+                />
+              </View>
+            </View>
+          )}
+
+          {activeRouteTab === "Map View" && renderMapView(aiAlert, setAiAlert, aiAlertIcon, setAiAlertIcon)}
+          {activeRouteTab === "This Week" && renderThisWeek()}
+          {activeRouteTab === "Plan New" && renderPlanNew(date,
+            setDate,
+            hcp,
+            setHcp,
+            hcpDropdownOpen,
+            setHcpDropdownOpen,
+            maxVisits,
+            setMaxVisits,
+            aiEnabled,
+            setAiEnabled)}
 
           {/* DOCTOR COVERAGE PLANNING */}
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Doctor Coverage Planning</Text>
-
-            <CoverageCard
-              name="Dr. Sharma"
-              status="Overdue"
-              lastVisit="Last visit: 3 weeks ago"
-              frequency="Required frequency: Biweekly"
-              potential="Rx Potential: Very High"
-            />
-            <CoverageCard
-              name="Dr. Mehta"
-              status="Overdue"
-              lastVisit="Last visit: 4 weeks ago"
-              frequency="Required frequency: Biweekly"
-              potential="Rx Potential: Very High"
-            />
-            <CoverageCard
-              name="Dr. Gupta"
-              status="New"
-              lastVisit="Last visit: Never"
-              frequency="Required frequency: Biweekly"
-              potential="Rx Potential: Very High"
-            />
-          </View>
+          {renderDoctorCoverage()}
 
           {/* OVERLAP ALERT */}
           <View style={styles.overlapCard}>
@@ -351,6 +492,19 @@ export default function RouteScreen() {
           </View>
         </ScrollView>
       </View>
+
+      {aiAlert && (
+        <View style={styles.aiAlertPopup}>
+          <Ionicons
+            name={aiAlertIcon === "checkmark-circle" ? "checkmark-circle" : "alert-circle"}
+            size={18}
+            color="#111"
+            style={{ marginRight: 6 }}
+          />
+          <Text style={styles.aiAlertText}>{aiAlert}</Text>
+        </View>
+      )}
+
     </SafeAreaView>
   );
 }
@@ -518,6 +672,314 @@ const MiniStat = ({ label, value }: { label: string; value: string }) => (
   <View style={styles.miniStat}>
     <Text style={styles.miniStatLabel}>{label}</Text>
     <Text style={styles.miniStatValue}>{value}</Text>
+  </View>
+);
+
+const renderMapView = (aiAlert: string | null,
+  setAiAlert: (v: string | null) => void,
+  aiAlertIcon: string | null,
+  setAiAlertIcon: (v: string | null) => void,) => (
+  <>
+    {/* Map placeholder */}
+    <View style={styles.mapCard}>
+      {/* Left legend */}
+      {renderRouteLegend()}
+
+      {/* Right controls */}
+      <View style={styles.mapControls}>
+        <TouchableOpacity style={styles.mapControlBtn}>
+          <Ionicons name="add" size={18} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.mapControlBtn}>
+          <Ionicons name="remove" size={18} />
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.mapControlBtn}>
+          <Ionicons name="paper-plane-outline" size={18} />
+        </TouchableOpacity>
+      </View>
+
+      {/* Simple placeholder route path */}
+      <View style={styles.routePlaceholderWrapper}>
+        <View style={styles.routePlaceholderLine} />
+        <Text style={styles.routePlaceholderText}>
+          Optimized route preview will appear here
+        </Text>
+      </View>
+    </View>
+
+    <View style={styles.summaryCardMapView}>
+      <View style={styles.summaryItem}>
+        <Text style={styles.summaryLabel}>Distance</Text>
+        <Text style={styles.summaryValue}>{summary.distanceKm}</Text>
+      </View>
+      <View style={styles.summaryItem}>
+        <Text style={styles.summaryLabel}>Duration</Text>
+        <Text style={styles.summaryValue}>{summary.duration}</Text>
+      </View>
+      <View style={styles.summaryItem}>
+        <Text style={styles.summaryLabel}>Visits</Text>
+        <Text style={styles.summaryValue}>{summary.visits}</Text>
+      </View>
+      <View style={styles.summaryItem}>
+        <Text style={styles.summaryLabel}>Traffic</Text>
+        <Text style={[styles.summaryValue, { color: "#16A34A" }]}>
+          {summary.traffic}
+        </Text>
+      </View>
+    </View>
+
+    {/*Nav buttons */}
+    <View style={styles.navRow}>
+      <TouchableOpacity style={styles.navPrimary} onPress={() => {
+        setAiAlertIcon("checkmark-circle");
+        setAiAlert("Starting turn-by-turn navigation...");
+        setTimeout(() => setAiAlert(null), 3000);
+      }}>
+        <Ionicons name="navigate" size={18} color="#FFFFFF" />
+        <Text style={styles.navPrimaryText}>  Start Navigation</Text>
+      </TouchableOpacity>
+
+      <TouchableOpacity style={styles.navSecondary} onPress={() => {
+        setAiAlertIcon("information-circle");
+        setAiAlert("Downloading route for offline use...");
+        setTimeout(() => setAiAlert(null), 3000);
+      }}>
+        <Ionicons name="location-outline" size={18} color="#111827" />
+        <Text style={styles.navSecondaryText}>  Save Offline</Text>
+      </TouchableOpacity>
+    </View>
+
+    {/* Live Traffic */}
+    <View style={styles.trafficCard}>
+      <View style={{ flexDirection: "row", alignItems: "center" }}>
+        <MaterialCommunityIcons
+          name="alert-circle-outline"
+          size={18}
+          color="#EA580C"
+        />
+        <Text style={styles.trafficTitle}>  Live Traffic Update</Text>
+      </View>
+      <Text style={styles.trafficText}>{MAP_VIEW_DATA.liveTrafficMessage}</Text>
+      <TouchableOpacity style={styles.trafficCta}>
+        <Text style={styles.trafficCtaText}>View Alternative Route</Text>
+      </TouchableOpacity>
+    </View>
+
+    {/* Poi List */}
+    <View style={styles.cardContainer}>
+      <View style={styles.cardHeaderRow}>
+        <View style={{ flexDirection: "row", alignItems: "center" }}>
+          <Ionicons name="location-outline" size={18} color="#2563EB" />
+          <Text style={styles.cardTitle}>  Nearby Points of Interest</Text>
+        </View>
+      </View>
+
+      {MAP_VIEW_DATA.pois.map((poi) => (
+        <View key={poi.id} style={styles.poiRow}>
+          <View style={styles.poiLeft}>
+            <View
+              style={[styles.poiDot, { backgroundColor: poi.colorDot }]}
+            />
+            <View>
+              <Text style={styles.poiName}>{poi.name}</Text>
+              <Text style={styles.poiType}>{poi.type}</Text>
+            </View>
+          </View>
+          <Text style={styles.poiDistance}>{poi.distanceKm}</Text>
+        </View>
+      ))}
+    </View>
+  </>
+)
+
+const renderThisWeek = () => (
+  <View style={styles.weekBox}>
+    <Text style={styles.sectionTitle}>Weekly Schedule Overview</Text>
+
+    {WEEK_DATA.map((item, index) => {
+      const isCompletedDay = item.completed !== undefined;
+
+      return (
+        <TouchableOpacity key={index} activeOpacity={0.8} style={[
+          styles.card,
+          isCompletedDay && styles.cardCompleted
+        ]}>
+          <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+            {/* LEFT */}
+            <View>
+              <Text style={styles.dayText}>{item.day}</Text>
+              <Text style={styles.dateText}>{item.date}</Text>
+
+              {isCompletedDay && (
+                <View style={styles.completedBadge}>
+                  <Text style={styles.completedBadgeText}>
+                    Completed: {item.completed}/{item.planned}
+                  </Text>
+                </View>
+              )}
+            </View>
+
+            {/* RIGHT */}
+            <View style={{ alignItems: "flex-end", justifyContent: "center" }}>
+              <Text style={styles.rightText}>Planned: {item.planned} visits</Text>
+              <Text style={styles.rightText}>Coverage: {item.coverage} HCPs</Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      );
+    })}
+  </View>
+)
+
+const renderPlanNew = (date: string,
+  setDate: (v: string) => void,
+  hcp: string,
+  setHcp: (v: string) => void,
+  hcpDropdownOpen: boolean,
+  setHcpDropdownOpen: (v: boolean) => void,
+  maxVisits: string,
+  setMaxVisits: (v: string) => void,
+  aiEnabled: boolean,
+  setAiEnabled: (v: boolean) => void) => (
+
+  <View style={styles.box}>
+    <Text style={styles.title}>Plan New Route</Text>
+
+    {/* Select Date */}
+    <Text style={styles.label}>Select Date</Text>
+    <View style={styles.inputWrapper}>
+      <TextInput
+        value={date}
+        placeholder="dd-mm-yyyy"
+        onChangeText={setDate}
+        style={styles.input}
+      />
+      <Ionicons name="calendar-outline" size={20} color="#6B7280" />
+    </View>
+
+    {/* Target HCPs */}
+    <Text style={styles.label}>Target HCPs</Text>
+    <TouchableOpacity
+      style={styles.inputWrapper}
+      onPress={() => setHcpDropdownOpen(!hcpDropdownOpen)}
+      activeOpacity={0.8}
+    >
+      <Text style={styles.inputText}>{hcp}</Text>
+      <Ionicons name="chevron-down" size={20} color="#6B7280" />
+    </TouchableOpacity>
+
+    {hcpDropdownOpen && (
+      <View style={styles.dropdown}>
+        {HCP_OPTIONS.map((item, i) => (
+          <TouchableOpacity
+            key={i}
+            style={styles.dropdownItem}
+            onPress={() => {
+              setHcp(item);
+              setHcpDropdownOpen(false);
+            }}
+          >
+            <Text style={styles.dropdownText}>{item}</Text>
+          </TouchableOpacity>
+        ))}
+      </View>
+    )}
+
+    {/* Max Visits */}
+    <Text style={styles.label}>Max Visits</Text>
+    <TextInput
+      value={maxVisits}
+      onChangeText={(t) => setMaxVisits(t.replace(/[^0-9]/g, ""))}
+      keyboardType="number-pad"
+      placeholder="6"
+      style={styles.numberInput}
+    />
+
+    {/* Enable AI */}
+    <TouchableOpacity
+      activeOpacity={0.8}
+      style={styles.aiToggleRow}
+      onPress={() => setAiEnabled(!aiEnabled)}
+    >
+      <Text style={styles.aiToggleText}>Enable AI Route Optimization</Text>
+      <Ionicons
+        name={aiEnabled ? "checkbox" : "square-outline"}
+        size={24}
+        color={aiEnabled ? "#007AFF" : "#9CA3AF"}
+      />
+    </TouchableOpacity>
+
+    {/* Button */}
+    <TouchableOpacity style={styles.generateBtn} activeOpacity={0.85}>
+      <Ionicons name="flash-outline" size={18} color="#fff" />
+      <Text style={styles.generateBtnText}>  Generate Optimized Route</Text>
+    </TouchableOpacity>
+  </View>
+)
+
+const renderRouteLegend = () => (
+  <View style={styles.legendCard}>
+    <Text style={styles.legendTitle}>Route Legend</Text>
+
+    <View style={styles.legendRow}>
+      <View style={[styles.legendDot, { backgroundColor: "#22C55E" }]} />
+      <Text style={styles.legendLabel}>Current Location</Text>
+    </View>
+
+    <View style={styles.legendRow}>
+      <View style={[styles.legendDot, { backgroundColor: "#2563EB" }]} />
+      <Text style={styles.legendLabel}>HCP Location</Text>
+    </View>
+
+    <View style={styles.legendRow}>
+      <View
+        style={[
+          styles.legendLine,
+          { borderColor: "#2563EB", borderStyle: "solid" },
+        ]}
+      />
+      <Text style={styles.legendLabel}>Optimized Route</Text>
+    </View>
+  </View>
+);
+
+const renderDoctorCoverage = () => (
+  <View style={styles.cardContainer}>
+    <View style={styles.cardHeaderRow}>
+      <Text style={styles.cardTitle}>Doctor Coverage Planning</Text>
+    </View>
+
+    {MAP_VIEW_DATA.doctors.map((doc) => (
+      <View key={doc.id} style={styles.docCard}>
+        <View style={styles.docHeaderRow}>
+          <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <Text style={styles.docName}>{doc.name}</Text>
+            <View style={styles.tierChip}>
+              <Text style={styles.tierChipText}>{doc.tier}</Text>
+            </View>
+          </View>
+          <View
+            style={[
+              styles.docStatusBadge,
+              doc.status === "Overdue"
+                ? styles.docStatusOverdue
+                : styles.docStatusNew,
+            ]}
+          >
+            <Text style={styles.docStatusText}>{doc.status}</Text>
+          </View>
+        </View>
+
+        <Text style={styles.docMeta}>{doc.lastVisit}</Text>
+        <Text style={styles.docMeta}>{doc.requiredFrequency}</Text>
+        <Text style={styles.docMeta}>{doc.rxPotential}</Text>
+
+        <TouchableOpacity style={styles.docScheduleBtn}>
+          <MaterialCommunityIcons name="calendar-blank-outline" size={16} />
+          <Text style={styles.docScheduleText}>  Schedule Visit</Text>
+        </TouchableOpacity>
+      </View>
+    ))}
   </View>
 );
 
@@ -1077,4 +1539,499 @@ const styles = StyleSheet.create({
     color: COLORS.lupinGreen,
     fontWeight: "600",
   },
+  tabsWrapper: {
+    flexDirection: "row",
+    backgroundColor: "#E5E7EB",
+    borderRadius: 999,
+    padding: 4,
+    marginTop: 10,
+    marginBottom: 12,
+  },
+  tabPill: {
+    flex: 1,
+    paddingVertical: 8,
+    borderRadius: 999,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  tabPillActive: {
+    backgroundColor: "#FFFFFF",
+  },
+  tabPillText: {
+    fontSize: 13,
+    color: "#6B7280",
+  },
+  tabPillTextActive: {
+    fontWeight: "700",
+    color: "#111827",
+  },
+  /* map card */
+  mapCard: {
+    marginTop: 8,
+    borderRadius: 16,
+    backgroundColor: "#E4F2FF",
+    padding: 16,
+    position: "relative",
+  },
+  mapControls: {
+    position: "absolute",
+    top: 16,
+    right: 16,
+  },
+  mapControlBtn: {
+    width: 32,
+    height: 32,
+    borderRadius: 8,
+    backgroundColor: "#FFFFFF",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 8,
+  },
+
+  legendCard: {
+    position: "absolute",
+    left: 16,
+    top: 16,
+    backgroundColor: "#FFFFFF",
+    borderRadius: 10,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+  },
+  legendTitle: {
+    fontSize: 12,
+    fontWeight: "700",
+    marginBottom: 8,
+    color: "#111827",
+  },
+  // legendRow: {
+  //   flexDirection: "row",
+  //   alignItems: "center",
+  //   marginBottom: 6,
+  // },
+  // legendDot: {
+  //   width: 8,
+  //   height: 8,
+  //   borderRadius: 4,
+  //   marginRight: 8,
+  // },
+  legendLine: {
+    width: 14,
+    borderBottomWidth: 2,
+    marginRight: 8,
+  },
+  // legendLabel: {
+  //   fontSize: 11,
+  //   color: "#4B5563",
+  // },
+
+  routePlaceholderWrapper: {
+    alignItems: "center",
+    justifyContent: "center",
+    paddingVertical: 80,
+  },
+  routePlaceholderLine: {
+    width: "80%",
+    borderBottomWidth: 2,
+    borderStyle: "dashed",
+    borderColor: "#2563EB",
+    marginBottom: 12,
+  },
+  routePlaceholderText: {
+    fontSize: 12,
+    color: "#4B5563",
+  },
+
+  /* summary strip */
+  summaryCardMapView: {
+    borderRadius: 12,
+    backgroundColor: "#FFFFFF",
+    paddingHorizontal: 16,
+    paddingVertical: 14,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  summaryItem: {
+    flex: 1,
+  },
+  summaryLabel: {
+    fontSize: 12,
+    color: "#6B7280",
+  },
+  summaryValue: {
+    marginTop: 4,
+    fontSize: 14,
+    fontWeight: "700",
+    color: "#111827",
+  },
+  /* nav buttons */
+  navRow: {
+    flexDirection: "row",
+    marginTop: 12,
+    marginBottom: 8,
+  },
+  navPrimary: {
+    flex: 1,
+    backgroundColor: "#050617",
+    paddingVertical: 12,
+    borderRadius: 8,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+  },
+  navPrimaryText: {
+    color: "#FFFFFF",
+    fontWeight: "700",
+    fontSize: 14,
+  },
+  navSecondary: {
+    flex: 1,
+    marginLeft: 10,
+    borderRadius: 8,
+    borderWidth: 1,
+    borderColor: "#D1D5DB",
+    backgroundColor: "#FFFFFF",
+    paddingVertical: 12,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+  },
+  navSecondaryText: {
+    color: "#111827",
+    fontSize: 14,
+    fontWeight: "600",
+  },
+
+  /* live traffic */
+  trafficCard: {
+    marginTop: 12,
+    borderRadius: 12,
+    backgroundColor: "#FFF7E6",
+    borderWidth: 1,
+    borderColor: "#FDE1B2",
+    padding: 14,
+  },
+  trafficTitle: {
+    fontSize: 14,
+    fontWeight: "700",
+    color: "#B45309",
+  },
+  trafficText: {
+    marginTop: 8,
+    fontSize: 13,
+    color: "#92400E",
+    lineHeight: 18,
+  },
+  trafficCta: {
+    marginTop: 10,
+    alignSelf: "flex-start",
+    borderRadius: 6,
+    borderWidth: 1,
+    borderColor: "#F97316",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    backgroundColor: "#FFFFFF",
+  },
+  trafficCtaText: {
+    fontSize: 13,
+    color: "#C05621",
+    fontWeight: "600",
+  },
+
+  /* generic card container */
+  cardContainer: {
+    marginTop: 16,
+    borderRadius: 12,
+    backgroundColor: "#FFFFFF",
+    paddingVertical: 14,
+    paddingHorizontal: 14,
+    borderWidth: 1,
+    borderColor: "#E5E7EB",
+  },
+  cardHeaderRow: {
+    marginBottom: 10,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  cardTitle: {
+    fontSize: 15,
+    fontWeight: "700",
+    color: "#111827",
+  },
+
+  /* POI rows */
+  poiRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    paddingVertical: 12,
+    paddingHorizontal: 4,
+    borderRadius: 8,
+    backgroundColor: "#F9FAFB",
+    marginBottom: 6,
+  },
+  poiLeft: {
+    flexDirection: "row",
+    alignItems: "center",
+    flex: 1,
+  },
+  poiDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginRight: 12,
+  },
+  poiName: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#111827",
+  },
+  poiType: {
+    fontSize: 12,
+    color: "#6B7280",
+    marginTop: 2,
+  },
+  poiDistance: {
+    fontSize: 12,
+    color: "#6B7280",
+  },
+  /* doctor coverage */
+  docCard: {
+    marginTop: 10,
+    borderRadius: 10,
+    backgroundColor: "#FFF3F3",
+    borderWidth: 1,
+    borderColor: "#FECACA",
+    padding: 12,
+  },
+  docHeaderRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 6,
+  },
+  docName: {
+    fontSize: 15,
+    fontWeight: "700",
+    color: "#111827",
+  },
+  tierChip: {
+    marginLeft: 8,
+    borderRadius: 999,
+    backgroundColor: "#F59E0B",
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+  },
+  tierChipText: {
+    fontSize: 11,
+    color: "#FFFFFF",
+    fontWeight: "700",
+  },
+  docStatusBadge: {
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+  },
+  docStatusOverdue: {
+    backgroundColor: "#F97373",
+  },
+  docStatusNew: {
+    backgroundColor: "#F97316",
+  },
+  docStatusText: {
+    fontSize: 11,
+    color: "#FFFFFF",
+    fontWeight: "700",
+  },
+  docMeta: {
+    fontSize: 12,
+    color: "#6B7280",
+    marginTop: 2,
+  },
+  docScheduleBtn: {
+    marginTop: 10,
+    borderRadius: 8,
+    backgroundColor: "#FFFFFF",
+    borderWidth: 1,
+    borderColor: "#FECACA",
+    paddingVertical: 10,
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "row",
+  },
+  docScheduleText: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: "#111827",
+  },
+  card: {
+    backgroundColor: "#f9fbfbff",
+    borderRadius: 10,
+    paddingHorizontal: 14,
+    paddingVertical: 14,
+    marginBottom: 10,
+    borderWidth: 1,
+    borderColor: "#E5E7EB",
+  },
+  cardCompleted: {
+    backgroundColor: "#EBFFF0",
+    borderColor: "#C6F2D0",
+  },
+  dayText: {
+    fontSize: 15,
+    fontWeight: "700",
+    color: "#111",
+  },
+  dateText: {
+    fontSize: 12,
+    color: "#6B7280",
+    marginTop: 3,
+    marginBottom: 6,
+  },
+  rightText: {
+    fontSize: 12,
+    color: "#6B7280",
+    marginVertical: 2,
+  },
+  completedBadge: {
+    backgroundColor: "#22C55E",
+    paddingHorizontal: 10,
+    paddingVertical: 4,
+    borderRadius: 6,
+    alignSelf: "flex-start",
+    marginTop: 4,
+  },
+  completedBadgeText: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: "#FFFFFF",
+  },
+  weekBox: {
+    backgroundColor: "#FFFFFF",
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: "#E5E7EB",
+    paddingHorizontal: 14,
+    paddingTop: 16,
+    paddingBottom: 12,
+  },
+  box: {
+    backgroundColor: "#FFFFFF",
+    borderWidth: 1,
+    borderColor: "#E5E7EB",
+    borderRadius: 12,
+    padding: 18,
+  },
+  title: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#111",
+    marginBottom: 20,
+  },
+  label: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#111",
+    marginBottom: 6,
+    marginTop: 14,
+  },
+  inputWrapper: {
+    borderWidth: 1,
+    borderColor: "#D1D5DB",
+    borderRadius: 8,
+    backgroundColor: "#fff",
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
+  input: {
+    flex: 1,
+    fontSize: 14,
+    color: "#111",
+  },
+  inputText: {
+    fontSize: 14,
+    color: "#111",
+    flex: 1,
+  },
+  dropdown: {
+    borderWidth: 1,
+    borderColor: "#D1D5DB",
+    borderRadius: 8,
+    backgroundColor: "#fff",
+    marginTop: 4,
+    overflow: "hidden",
+  },
+  dropdownItem: {
+    paddingVertical: 12,
+    paddingHorizontal: 14,
+  },
+  dropdownText: {
+    fontSize: 14,
+    color: "#111",
+  },
+  numberInput: {
+    borderWidth: 1,
+    borderColor: "#D1D5DB",
+    borderRadius: 8,
+    backgroundColor: "#fff",
+    paddingHorizontal: 12,
+    paddingVertical: 12,
+    fontSize: 14,
+    color: "#111",
+  },
+  aiToggleRow: {
+    backgroundColor: "#ECF4FF",
+    borderRadius: 6,
+    paddingVertical: 12,
+    paddingHorizontal: 12,
+    marginTop: 18,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  aiToggleText: {
+    fontSize: 14,
+    color: "#111",
+  },
+  generateBtn: {
+    marginTop: 24,
+    backgroundColor: "#0C0E1A",
+    borderRadius: 8,
+    paddingVertical: 14,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  generateBtnText: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#fff",
+  },
+  aiAlertPopup: {
+    position: "absolute",
+    top: 18,
+    alignSelf: "center",
+    backgroundColor: "#fff",
+    borderRadius: 10,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    flexDirection: "row",
+    alignItems: "center",
+    elevation: 6,
+    shadowColor: "#000",
+    shadowOpacity: 0.12,
+    shadowRadius: 6,
+    borderWidth: 1,
+    borderColor: "#efefef",
+    zIndex: 999,
+  },
+  aiAlertText: {
+    fontSize: 14,
+    fontWeight: "500",
+    color: "#111",
+  },
+
 });
